@@ -322,7 +322,7 @@ describe('Activity', function() {
     expect(userActiveMin).to.equal(62);
   });
 
-  it.only('should return a weeks worth of relevant data for a given user', function() {
+  it('should return a weeks worth of relevant data for a given user', function() {
     let userWeekData1 = activity.userDataForWeek(1, "2019/06/23", userRepo, 'numSteps')[0];
     let userWeekData2 = activity.userDataForWeek(1, "2019/06/23", userRepo, 'minutesActive')[3];
     let userWeekData3 = activity.userDataForWeek(1, "2019/06/23", userRepo, 'flightsOfStairs')[0];
@@ -494,79 +494,23 @@ describe('Friend Activity', function() {
       dailyStepGoal: 7000,
       friends: [1, 2]
     });
+
     users = [user1, user2, user3, user4];
+
     userRepo = new UserRepo(users);
+
   });
 
   it('should get a users friend lists activity', function() {
-    expect(activity.getFriendsActivity(user4, userRepo)).to.eql([{
-        "userID": 1,
-        "date": "2019/06/15",
-        "numSteps": 3577,
-        "minutesActive": 140,
-        "flightsOfStairs": 16
-      },
-      {
-        "userID": 1,
-        "date": "2019/06/14",
-        "numSteps": 11374,
-        "minutesActive": 213,
-        "flightsOfStairs": 13
-      },
-      {
-        "userID": 1,
-        "date": "2019/06/02",
-        "numSteps": 6389,
-        "minutesActive": 41,
-        "flightsOfStairs": 33
-      },
-      {
-        "userID": 1,
-        "date": "2019/06/16",
-        "numSteps": 3578,
-        "minutesActive": 140,
-        "flightsOfStairs": 16
-      },
-      {
-        "userID": 1,
-        "date": "2019/06/17",
-        "numSteps": 3579,
-        "minutesActive": 141,
-        "flightsOfStairs": 16
-      },
-      {
-        "userID": 1,
-        "date": "2019/06/18",
-        "numSteps": 3580,
-        "minutesActive": 142,
-        "flightsOfStairs": 16
-      },
-      {
-        "userID": 2,
-        "date": "2019/06/14",
-        "numSteps": 4294,
-        "minutesActive": 138,
-        "flightsOfStairs": 10
-      },
-      {
-        "userID": 2,
-        "date": "2019/06/13",
-        "numSteps": 14810,
-        "minutesActive": 287,
-        "flightsOfStairs": 18
-      },
-      {
-        "userID": 2,
-        "date": "2019/06/03",
-        "numSteps": 8015,
-        "minutesActive": 106,
-        "flightsOfStairs": 37
-      }
-    ]);
+    let friendsActivityData = activity.getFriendsActivity(user4, userRepo);
+
+    expect(friendsActivityData.length).to.equal(9);
   });
 
   it('should get a users ranked friendslist activity for a chosen week', function() {
-    expect(activity.getFriendsAverageStepsForWeek(user4, "2019/06/15", userRepo)).to.eql([{
+    let rankedFriendsActivity = activity.getFriendsAverageStepsForWeek(user4, "2019/06/15", userRepo);
+
+    expect(rankedFriendsActivity).to.deep.equal([{
         '2': 9552
       },
       {
@@ -576,17 +520,25 @@ describe('Friend Activity', function() {
   });
 
   it('should get a users ranked friendslist activity for a chosen week with names', function() {
-    expect(activity.showChallengeListAndWinner(user4, "2019/06/15", userRepo)).to.eql([
+    let rankedFriendsActivity = activity.showChallengeListAndWinner(user4, "2019/06/15", userRepo);
+
+    expect(rankedFriendsActivity).to.deep.equal([
       'Allie McCarthy: 9552', 'Alex Roth: 7475.5'
-    ])
+    ]);
   });
-  it('should know the ID of the winning friend', function() {
-    expect(activity.getWinnerId(user4, "2019/06/15", userRepo)).to.eql(2)
-  })
+
   it('should show a 3-day increasing streak for a users step count', function() {
-    expect(activity.getStreak(userRepo, 1, 'numSteps')).to.eql(['2019/06/17', '2019/06/18'])
+    let activityStreak1 = activity.getStreak(userRepo, 1, 'numSteps');
+    let activityStreak2 = activity.getStreak(userRepo, 1, 'minutesActive');
+
+    expect(activityStreak1).to.deep.equal(['2019/06/17', '2019/06/18']);
+    expect(activityStreak2).to.deep.equal(['2019/06/18']);
   });
-  it('should show a 3-day increasing streak for a users minutes of activity', function() {
-    expect(activity.getStreak(userRepo, 1, 'minutesActive')).to.eql(['2019/06/18'])
+
+  it('should know the ID of the winning friend', function() {
+    let winnerID = activity.getWinnerId(user4, "2019/06/15", userRepo);
+
+    expect(winnerID).to.equal(2);
   });
+
 });
