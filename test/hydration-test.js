@@ -6,6 +6,10 @@ import User from '../src/User';
 describe('Hydration', function() {
   let hydrationData;
   let hydration;
+  let user3;
+  let user4;
+  let users;
+  let userRepo;
 
   beforeEach(function() {
     hydrationData = [{
@@ -101,6 +105,27 @@ describe('Hydration', function() {
     ]
 
     hydration = new Hydration(hydrationData);
+    user3 = new User({
+      id: 3,
+      name: "The Rock",
+      address: "1236 Awesome Street, Denver CO 80301-1697",
+      email: "therock@hotmail.com",
+      strideLength: 10,
+      dailyStepGoal: 60000,
+      friends: [1, 2, 4]
+    });
+
+    user4 = new User({
+      id: 4,
+      name: "Rainbow Dash",
+      address: "1237 Equestria Street, Denver CO 80301-1697",
+      email: "rainbowD1@hotmail.com",
+      strideLength: 3.8,
+      dailyStepGoal: 7000,
+      friends: [1, 2, 3]
+    });
+    users = [user3, user4];
+    userRepo = new UserRepo(users);
   });
 
   it('should take in a list of data', function() {
@@ -110,69 +135,32 @@ describe('Hydration', function() {
   });
 
   it('should find the average water intake per day for a user', function() {
-    expect(hydration.calculateAverageOunces(3)).to.equal(2);
+    let userHydration = hydration.calculateAverageOunces(3);
+
+    expect(userHydration).to.equal(2);
   });
 
   it('should find the water intake for a user on a specified date', function() {
-    expect(hydration.calculateDailyOunces(1, "2019/06/15")).to.equal(37);
-    expect(hydration.calculateDailyOunces(4, "2019/04/15")).to.equal(36);
+    let userData1 = hydration.calculateDailyOunces(1, "2019/06/15");
+    let userData2 = hydration.calculateDailyOunces(4, "2019/04/15");
+
+    expect(userData1).to.equal(37);
+    expect(userData2).to.equal(36);
   });
 
   it('should find water intake by day for first week', function() {
-    const user3 = new User({
-      id: 3,
-      name: "The Rock",
-      address: "1236 Awesome Street, Denver CO 80301-1697",
-      email: "therock@hotmail.com",
-      strideLength: 10,
-      dailyStepGoal: 60000,
-      friends: [1, 2, 4]
-    });
+    let userData1 = hydration.calculateFirstWeekOunces(userRepo, 4)[0];
+    let userData2 = hydration.calculateFirstWeekOunces(userRepo, 4)[6];
 
-    const user4 = new User({
-      id: 4,
-      name: "Rainbow Dash",
-      address: "1237 Equestria Street, Denver CO 80301-1697",
-      email: "rainbowD1@hotmail.com",
-      strideLength: 3.8,
-      dailyStepGoal: 7000,
-      friends: [1, 2, 3]
-    });
-    const users = [user3, user4];
-    const userRepo = new UserRepo(users);
-    // console.log(hydration.calculateFirstWeekOunces(userRepo, 4));
-    expect(hydration.calculateFirstWeekOunces(userRepo, 4)[0]).to.eql('2019/09/20: 40');
-    expect(hydration.calculateFirstWeekOunces(userRepo, 4)[6]).to.eql('2019/04/15: 36');
+    expect(userData1).to.equal('2019/09/20: 40');
+    expect(userData2).to.equal('2019/04/15: 36');
   });
 
-  it('should find sleep quality by day for that days week', function() {
-    const user3 = new User({
-      id: 3,
-      name: "The Rock",
-      address: "1236 Awesome Street, Denver CO 80301-1697",
-      email: "therock@hotmail.com",
-      strideLength: 10,
-      dailyStepGoal: 60000,
-      friends: [1, 2, 4]
-    });
+  it('should find daily ounces for a given week', function() {
+    let userData = hydration.calculateRandomWeekOunces('2019/09/18', 4, userRepo)[0];
 
-    const user4 = new User({
-      id: 4,
-      name: "Rainbow Dash",
-      address: "1237 Equestria Street, Denver CO 80301-1697",
-      email: "rainbowD1@hotmail.com",
-      strideLength: 3.8,
-      dailyStepGoal: 7000,
-      friends: [1, 2, 3]
-    });
-    const users = [user3, user4];
-    const userRepo = new UserRepo(users);
-    console.log("HELOOO", hydration.calculateRandomWeekOunces('2018/02/01', 4, userRepo));
-    expect(hydration.calculateRandomWeekOunces('2019/09/18', 4, userRepo)[0]).to.eql('2019/09/18: 40');
-    // expect(hydration.calculateRandomWeekOunces('2018/02/01', 4, userRepo)[6]).to.eql('2019/09/16: 30');
-    //this is failing because it doesn't exist, need a failure case
-  })
-  //day of hydration should not include user 2 or user 1 on August 22
-  //week of hydration should not include user 4 not during the week
+    expect(userData).to.equal('2019/09/18: 40');
+    expect(hydration.calculateRandomWeekOunces('2018/02/01', 4, userRepo)[0]).to.equal('2018/02/01: 28');
+  });
 
 });
