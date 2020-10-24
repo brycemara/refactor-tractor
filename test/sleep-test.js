@@ -374,7 +374,7 @@ describe('Sleep', function() {
     expect(userData).to.deep.equal(["Bugs Bunny"]);
   });
 
-  it.only('should return all qualifying users if longest sleep is a tie', function() {
+  it('should return all qualifying users if longest sleep is a tie', function() {
     sleepData = sleepData.push({
       "userID": 6,
       "date": "2019/06/21",
