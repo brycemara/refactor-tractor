@@ -9,10 +9,11 @@ class UserRepo {
     return dataSet.filter((userData) => id === userData.userID);
   };
   calculateAverageStepGoal() {
-    var totalStepGoal = this.users.reduce((sumSoFar, data) => {
-      return sumSoFar = sumSoFar + data.dailyStepGoal;
+    const totalStepGoal = this.users.reduce((sumSoFar, data) => {
+      return sumSoFar += data.dailyStepGoal;
     }, 0);
-    return totalStepGoal / this.users.length;
+    const averageSteps = totalStepGoal / this.users.length;
+    return averageSteps;
   };
   makeSortedUserArray(id, dataSet) {
     let selectedID = this.getDataFromUserID(id, dataSet)
@@ -26,54 +27,60 @@ class UserRepo {
     return this.makeSortedUserArray(id, dataSet).slice(0, 7);
   };
   getWeekFromDate(date, id, dataSet) {
-    let dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
-    return this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
+    let user = this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date));
+    let dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(user);
+    let week = this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
+    return week;
   };
   chooseWeekDataForAllUsers(dataSet, date) {
-    return dataSet.filter(function(dataItem) {
-      return (new Date(date)).setDate((new Date(date)).getDate() - 7) <= new Date(dataItem.date) && new Date(dataItem.date) <= new Date(date)
-    })
+    let allUserData = dataSet.filter((dataItem) => {
+      return (new Date(date)).setDate((new Date(date)).getDate() - 7) <= new Date(dataItem.date) && new Date(dataItem.date) <= new Date(date);
+    });
+    return allUserData;
   };
   chooseDayDataForAllUsers(dataSet, date) {
-    return dataSet.filter(function(dataItem) {
+    let userData = dataSet.filter((dataItem) => {
       return dataItem.date === date
     });
-  }
+    return userData;
+  };
+
   isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod) {
-    return listFromMethod.reduce(function(objectSoFar, dataItem) {
+    let userData = listFromMethod.reduce((objectSoFar, dataItem) => {
       if (!objectSoFar[dataItem.userID]) {
-        objectSoFar[dataItem.userID] = [dataItem[relevantData]]
+        objectSoFar[dataItem.userID] = [dataItem[relevantData]];
       } else {
-        objectSoFar[dataItem.userID].push(dataItem[relevantData])
+        objectSoFar[dataItem.userID].push(dataItem[relevantData]);
       }
       return objectSoFar;
     }, {});
-  }
+    return userData;
+  };
+
   rankUserIDsbyRelevantDataValue(dataSet, date, relevantData, listFromMethod) {
-    let sortedObjectKeys = this.isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod)
-    return Object.keys(sortedObjectKeys).sort(function(b, a) {
-      return (sortedObjectKeys[a].reduce(function(sumSoFar, sleepQualityValue) {
-        sumSoFar += sleepQualityValue
-        return sumSoFar;
-      }, 0) / sortedObjectKeys[a].length) - (sortedObjectKeys[b].reduce(function(sumSoFar, sleepQualityValue) {
-        sumSoFar += sleepQualityValue
-        return sumSoFar;
-      }, 0) / sortedObjectKeys[b].length)
+    let sortedObjectKeys = this.isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod);
+    let dataValue = Object.keys(sortedObjectKeys).sort((b, a) => {
+      return (this.getAverageRelevantData(sortedObjectKeys[a])) - (this.getAverageRelevantData(sortedObjectKeys[b]));
     });
-  }
+    return dataValue;
+  };
+
+  getAverageRelevantData(propertyValues) {
+    return propertyValues.reduce((sum, currentData) => {
+      sum += currentData
+      return sum;
+    }, 0) / propertyValues.length;
+  };
+
   combineRankedUserIDsAndAveragedData(dataSet, date, relevantData, listFromMethod) {
-    let sortedObjectKeys = this.isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod)
-    let rankedUsersAndAverages = this.rankUserIDsbyRelevantDataValue(dataSet, date, relevantData, listFromMethod)
-    return rankedUsersAndAverages.map(function(rankedUser) {
-      rankedUser = {
-        [rankedUser]: sortedObjectKeys[rankedUser].reduce(
-          function(sumSoFar, sleepQualityValue) {
-            sumSoFar += sleepQualityValue
-            return sumSoFar;
-          }, 0) / sortedObjectKeys[rankedUser].length
-      };
-      return rankedUser;
-    });
+    let sortedObjectKeys = this.isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod);
+    let rankedUsers = this.rankUserIDsbyRelevantDataValue(dataSet, date, relevantData, listFromMethod);
+    let rankedUsersAndAverages = rankedUsers.reduce((rankedAverages, user) => {
+      let updatedUser = {[user] : this.getAverageRelevantData(sortedObjectKeys[user])}
+      rankedAverages.push(updatedUser)
+      return rankedAverages;
+    }, []);
+    return rankedUsersAndAverages;
   }
 }
 
