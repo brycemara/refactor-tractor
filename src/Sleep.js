@@ -15,8 +15,8 @@ class Sleep {
   };
 
   calculateDailyTotal(id, date, property) {
-    let findSleepQualityByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
-    return findSleepQualityByDate[property];
+    let findSleepDataByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
+    return findSleepDataByDate[property];
   };
 
   calculateWeekTotal(date, id, userRepo, property) {
