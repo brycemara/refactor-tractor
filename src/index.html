@@ -11,9 +11,9 @@
   <section class="main">
     <section class="main-sidebar-body">
       <section class="body-sidebar-sidebarContainer">
-        <h2 class="sidebar-header-name" id="sidebarName" tabindex="0">Name Name</h2>
+        <h2 class="sidebar-header-name" id="sidebarUserName" tabindex="0">Name Name</h2>
         <div class="sidebar-header-line"></div>
-        <img src="./images/The Rock.jpg" class="sidebar-header-userImage" alt="profile headshot of the current user" tabindex="0"></img>
+        <img src="./images/The Rock.jpg" class="sidebar-header-userImage" alt="profile headshot of the current user" id="profileImage" tabindex="0"></img>
         <div class="sidebar-header-line"></div>
         <p class="sidebar-header-userInfo" id="userAddress" tabindex="0"></p>
         <div class="sidebar-header-line"></div>
@@ -21,19 +21,19 @@
         <div class="sidebar-header-line"></div>
         <p class="sidebar-header-userInfo" id="userStridelength" tabindex="0"></p>
         <div class="sidebar-header-line"></div>
-        <p class="sidebar-header-userInfo" id="stepGoalCard" tabindex="0"></p>
-        <p class="sidebar-header-userInfo" id="avStepGoalCard" tabindex="0">
+        <p class="sidebar-header-userInfo" id="userStepGoalCard" tabindex="0"></p>
+        <p class="sidebar-header-userInfo" id="averageStepsGoalCard" tabindex="0">
           <p>
             <div class="sidebar-header-line"></div>
             <section class="sidebar-body-friendContainer">
-              <p class="sidebar-header-userInfo" tabindex="0">Friends</p>
+              <p class="sidebar-header-userInfo" id="userInfoSideBar" tabindex="0">Friends</p>
               <section class="sidebar-friendContainer-listItems">
                 <ul class="card-vertical-list" id="friendList" tabindex="0">
                   <!-- friend list goes here -->
                 </ul>
               </section>
               <div class="sidebar-header-line"></div>
-              <p class="thisWeek" tabindex="0">Keep up the good work! You were increasingly active on these dates:</p>
+              <p class="thisWeek" id="currentWeekSideBar" tabindex="0">Keep up the good work! You were increasingly active on these dates:</p>
               <ul class="card-vertical-list" id="streakListMinutes" tabindex="0">
                 <!-- friend list goes here -->
               </ul>
@@ -52,14 +52,14 @@
         </section>
         <section class="infoContainer-cardContainer-card-vertical">
           <div class="card-history-hydration">
-            <p class="thisWeek" tabindex="0">Water intake this week:</p>
+            <p class="thisWeek" id="currentWeekHydration" tabindex="0">Water intake this week:</p>
             <div class="sidebar-header-line"></div>
             <ul class="card-vertical-list" id="hydrationThisWeek" tabindex="0">
               <!-- Hydration week list goes here -->
             </ul>
           </div>
           <div class="card-history-hydration">
-            <p class="historicalWeek" tabindex="0"></p>
+            <p class="historicalWeek" id="historicalWeekHydrationHeading" tabindex="0"></p>
             <div class="sidebar-header-line"></div>
             <ul class="card-vertical-list" id="hydrationEarlierWeek" tabindex="0">
               <!-- Hydration week list goes here -->
@@ -97,14 +97,14 @@
         <section class="infoContainer-cardContainer-card-horizontal">
           <section class="horizontalCard-activity-container">
             <div class="card-history-activity">
-              <p class="thisWeek" tabindex="0">Your steps this week</p>
+              <p class="thisWeek" id="currentWeekStepsHeading" tabindex="0">Your steps this week</p>
               <div class="sidebar-header-line"></div>
               <ul class="card-vertical-list" id="userStepsThisWeek" tabindex="0">
                 <!-- Activity week list goes here -->
               </ul>
             </div>
             <div class="card-history-activity">
-              <p class="thisWeek" tabindex="0">Your stair count this week</p>
+              <p class="thisWeek" id="currentWeekStairsHeading" tabindex="0">Your stair count this week</p>
               <div class="sidebar-header-line"></div>
               <ul class="card-vertical-list" id="userStairsThisWeek" tabindex="0">
                 <!-- Activity week list goes here -->
@@ -113,14 +113,14 @@
           </section>
           <section class="horizontalCard-activity-container">
             <div class="card-history-activity">
-              <p class="thisWeek" tabindex="0">Your minutes of activity this week</p>
+              <p class="thisWeek" id="currentWeekActiveMinHeading" tabindex="0">Your minutes of activity this week</p>
               <div class="sidebar-header-line"></div>
               <ul class="card-vertical-list" id="userMinutesThisWeek" tabindex="0">
                 <!-- Activity week list goes here -->
               </ul>
             </div>
             <div class="card-history-activity">
-              <p class="thisWeek" tabindex="0">Winner's steps this week</p>
+              <p class="thisWeek" id="currentWeekWinnerStepsHeading" tabindex="0">Winner's steps this week</p>
               <div class="sidebar-header-line"></div>
               <ul class="card-vertical-list" id="bestUserSteps" tabindex="0">
                 <!-- Activity week list goes here -->
@@ -143,14 +143,14 @@
         </section>
         <section class="infoContainer-cardContainer-card-vertical">
           <div class="card-history-sleep">
-            <p class="thisWeek" tabindex="0">Hours of sleep this week</p>
+            <p class="thisWeek" id="currentWeekHoursSleptHeading" tabindex="0">Hours of sleep this week</p>
             <div class="sidebar-header-line"></div>
             <ul class="card-vertical-list" id="sleepThisWeek" tabindex="0">
               <!-- Sleep week list goes here -->
             </ul>
           </div>
           <div class="card-history-sleep">
-            <p class="historicalWeek" tabindex="0"></p>
+            <p class="historicalWeek" id="historicalWeekSleepHeading" tabindex="0"></p>
             <div class="sidebar-header-line"></div>
             <ul class="card-vertical-list" id="sleepEarlierWeek" tabindex="0">
               <!-- Sleep week list goes here -->
@@ -163,7 +163,7 @@
       <section class="body-sidebar-sidebarContainer">
         <h2 class="sidebar-header-name" id="sidebarName" tabindex="0">FRIENDLY STEP CHALLENGE!</h2>
         <div class="sidebar-header-line"></div>
-        <img src="./images/person walking on path.jpg" class="sidebar-header-userImage" alt="backlit image of a person's legs as they walk down a path" tabindex="0"></img>
+        <img src="./images/person walking on path.jpg" class="sidebar-header-userImage" alt="backlit image of a person's legs as they walk down a path" id="walkingImage" tabindex="0"></img>
         <div class="sidebar-header-line"></div>
         <p class="sidebar-header-userInfo" id="bigWinner" tabindex="0"></p>
         <div class="sidebar-header-line"></div>
@@ -172,18 +172,18 @@
           <p>
             <section class="sidebar-body-friendContainer">
               <section class="sidebar-friendContainer-listItems">
-                <p class="thisWeek" tabindex="0">Rank this week</p>
+                <p class="thisWeek" id="currentWeekChallengeRankHeading" tabindex="0">Rank this week</p>
                 <ul class="card-vertical-list" id="friendChallengeListToday" tabindex="0">
                   <!-- friend list goes here -->
                 </ul>
                 <div class="sidebar-header-line"></div>
-                <p class="historicalWeek" tabindex="0"> Historical Rank</p>
+                <p class="historicalWeek" id="historicalWeekChallengeRankHeading" tabindex="0"> Historical Rank</p>
                 <ul class="card-vertical-list" id="friendChallengeListHistory" tabindex="0">
                   <!-- friend list goes here -->
                 </ul>
                 <div class="sidebar-header-line"></div>
               </section>
-              <p class="thisWeek" tabindex="0">You had 3 DAY STEP STREAKS on these days:</p>
+              <p class="thisWeek" id="activityStreaksHeading" tabindex="0">You had 3 DAY STEP STREAKS on these days:</p>
               <ul class="card-vertical-list" id="streakList" tabindex="0">
                 <!-- friend list goes here -->
               </ul>
