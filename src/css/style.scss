@@ -1,125 +1,107 @@
+@import 'variables';
+
+@mixin flexDisplay($direction) {
+  display: flex;
+  flex-direction: $direction;
+}
+
 * {
   margin: 0;
 }
 
 body {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   margin: 0;
-  background-color: #4d4e4f;
+  background-color: $body-background;
   height: auto;
 }
 
 h1 {
   text-align: center;
-  color: #ffffff;
+  color: $white;
   height: 80px;
   padding-top: 10px;
 }
 
 .main {
-  display: flex;
-  flex-direction: row;
+  @include flexDisplay(row);
   height: 1500px;
+  .main-sidebar-body {
+    @include flexDisplay(row);
+    width: 25%;
+    height: 100%;
+    .body-sidebar-sidebarContainer {
+      background-color: $sidebar-background;
+      border: 1px solid $black;
+      @include flexDisplay(column);
+      align-items: center;
+      text-align: center;
+      overflow: scroll;
+        .sidebar-header-name {
+          text-align: center;
+        }
+        .sidebar-header-userInfo {
+          font-family: $font-style;
+          font-weight: bold;
+          font-size: 1.2em;
+          margin: .5em .5em .5em .5em;
+          width: inherit;
+        }
+        .sidebar-header-line {
+          color: $white;
+          border: 1px solid $black;
+          margin: 1em 1em 0 1em;
+          height: 0;
+          width: 80%;
+        }
+        .sidebar-header-userImage {
+          border-radius: 50%;
+          border: 1px solid $black;
+          height: 200px;
+          width: 200px;
+          margin: 4px 2px 2px 2px;
+          justify-content: center;
+        }
+        .sidebar-body-friendContainer {
+            @include flexDisplay(column);
+            .sidebar-friendContainer-listItems {
+              text-align: left;
+            }
+        }
+    }
+  }
 }
 
-.main-sidebar-body {
-  display: flex;
-  flex-direction: row;
-  width: 25%;
-  height: 100%;
-}
-
-.body-sidebar-sidebarContainer {
-  background-color: #9A9DAB;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  overflow: scroll;
-}
-
-.sidebar-header-name {
-  text-align: center;
-}
-
-.sidebar-header-userInfo {
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 1.2em;
-  margin: .5em .5em .5em .5em;
-  width: inherit;
-}
-
-.sidebar-header-line {
-  color: #ffffff;
-  border: 1px solid black;
-  margin: 1em 1em 0 1em;
-  height: 0;
-  width: 80%;
-}
-
-.sidebar-header-userImage {
-  border-radius: 50%;
-  border-color: black;
-  border-style: solid;
-  border-width: 1px;
-  height: 200px;
-  width: 200px;
-  margin: 4px 2px 2px 2px;
-  justify-content: center;
-}
-
-.sidebar-body-friendContainer {
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-friendContainer-listItems {
-  text-align: left;
-}
 
 .body-main-infoContainter {
   width: 100%;
-  border: 1px solid black;
+  border: 1px solid $black;
   margin: 0 0 1em;
-  display: flex;
-  flex-direction: column;
+  @include flexDisplay(column);
   overflow: scroll;
-}
-
-.main-column-hydration {
-  display: flex;
-  flex-direction: row;
-  height: 25%
-}
-
-.main-column-activity {
-  display: flex;
-  flex-direction: row;
-  height: 50%
-}
-
-.main-column-sleep {
-  display: flex;
-  flex-direction: row;
-  height: 35%
+    .main-column-hydration {
+      @include flexDisplay(row);
+    }
+    .main-column-activity {
+      @include flexDisplay(row);
+    }
+    .main-column-sleep {
+      @include flexDisplay(row);
+    }
 }
 
 .infoContainer-cardContainer-card-horizontal {
   width: 100%;
-  background-color: white;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
+  background-color: $white;
+  border: 1px solid $black;
+  @include flexDisplay(column);
   align-items: center;
   margin: 1%;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .horizontalCard-activity-container {
-  display: flex;
-  flex-direction: row;
+  @include flexDisplay(row);
   justify-content: space-around;
   width: 100%;
   overflow: scroll;
@@ -127,112 +109,76 @@ h1 {
 
 .infoContainer-cardContainer-card-vertical {
   width: 100%;
-  background-color: white;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: row;
+  background-color: $white;
+  border: 1px solid $black;
+  @include flexDisplay(row);
   margin: 1%;
   overflow: scroll;
 }
 
-.card-today-hydration {
+@mixin todayDisplay($background, $fontSize, $margin, $content, $width) {
   text-align: center;
-  background-color: #5BC8AC;
-  height: auto;
-  font-size: 1.5em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 80%;
+  background-color: $background;
+  font-size: $fontSize;
+  font-family: $font-style;
+  margin: $margin;
+  justify-content: $content;
+  width: $width;
+}
+
+.card-today-hydration {
+  @include todayDisplay($hydration-background, 1.5em, .5em, space-between, 80%)
+  @include flexDisplay(column);
 }
 
 .card-today-sleep {
-  text-align: center;
-  background-color: #EC96A4;
-  height: auto;
-  font-size: 1.5em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 80%;
+  @include todayDisplay($sleep-background, 1.5em, .5em, space-between, 80%)
+  @include flexDisplay(column);
 }
 
 .card-today-activity {
-  text-align: center;
-  background-color: #DFE166;
-  height: auto;
-  font-size: 1.5em;
-  margin: .3em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 40%;
+  @include todayDisplay($activity-background, 1.5em, .3em, space-between, 40%)
+  @include flexDisplay(column);
 }
 
 .card-history-hydration {
-  text-align: center;
-  background-color: #5BC8AC;
-  font-size: 1em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
+  @include todayDisplay($hydration-background, 1em, .5em, flex-start, 50%)
+  @include flexDisplay(column);
+
 }
 
 .card-history-sleep {
-  text-align: center;
-  background-color: #EC96A4;
-  font-size: 1em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
+  @include todayDisplay($sleep-background, 1em, .5em, flex-start, 50%)
+  @include flexDisplay(column);
+
 }
 
 .card-history-activity {
-  text-align: center;
-  background-color: #DFE166;
-  font-size: 1em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
-  height: 93%;
-  overflow: scroll;
+  @include todayDisplay($activity-background, 1em, .5em, flex-start, 50%)
+  @include flexDisplay(column);
 }
 
 .number {
   font-size: 2em;
   font-weight: bolder;
-  color: #4d4e4f;
+  color: $number-color;
   font-kerning: normal;
 }
 
-.historicalWeek {
+@mixin weekDisplay {
   text-align: center;
   font-size: 1em;
   font-weight: bolder;
   margin: .5em;
-  color: black;
+  color: $black;
+}
+
+.historicalWeek {
+  @include weekDisplay;
 }
 
 .thisWeek {
-  text-align: center;
-  font-size: 1em;
-  font-weight: bolder;
-  margin: .5em;
-  color: black;
+  @include weekDisplay;
 }
 
 .card-vertical-list {
@@ -246,5 +192,6 @@ h1 {
 .historical-list-listItem {
   padding: .3em;
   font-weight: bold;
-  font-family: sans-serif;
+  font-family: $font-style;
+  text-align: center;
 }
