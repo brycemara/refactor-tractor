@@ -1,5 +1,10 @@
 @import 'variables';
 
+@mixin flexDisplay($direction) {
+  display: flex;
+  flex-direction: $direction;
+}
+
 * {
   margin: 0;
 }
@@ -19,24 +24,21 @@ h1 {
 }
 
 .main {
-  display: flex;
-  flex-direction: row;
+  @include flexDisplay(row);
   height: 1500px;
   .main-sidebar-body {
-    // display: flex;
-    // flex-direction: row;
+    @include flexDisplay(row);
     width: 25%;
     height: 100%;
     .body-sidebar-sidebarContainer {
       background-color: $sidebar-background;
       border: 1px solid $black;
-      // display: flex;
-      flex-direction: column;
+      @include flexDisplay(column);
       align-items: center;
       text-align: center;
       overflow: scroll;
         .sidebar-header-name {
-          // text-align: center;
+          text-align: center;
         }
         .sidebar-header-userInfo {
           font-family: $font-style;
@@ -54,17 +56,14 @@ h1 {
         }
         .sidebar-header-userImage {
           border-radius: 50%;
-          border-color: $black;
-          border-style: solid;
-          border-width: 1px;
+          border: 1px solid $black;
           height: 200px;
           width: 200px;
           margin: 4px 2px 2px 2px;
           justify-content: center;
         }
         .sidebar-body-friendContainer {
-          // display: flex;
-          flex-direction: column;
+            @include flexDisplay(column);
             .sidebar-friendContainer-listItems {
               text-align: left;
             }
@@ -78,41 +77,31 @@ h1 {
   width: 100%;
   border: 1px solid $black;
   margin: 0 0 1em;
-  display: flex;
-  flex-direction: column;
+  @include flexDisplay(column);
   overflow: scroll;
     .main-column-hydration {
-      display: flex;
-      flex-direction: row;
-      height: 25%;
+      @include flexDisplay(row);
     }
     .main-column-activity {
-      display: flex;
-      flex-direction: row;
-      height: 50%;
+      @include flexDisplay(row);
     }
     .main-column-sleep {
-      display: flex;
-      flex-direction: row;
-      height: 35%;
+      @include flexDisplay(row);
     }
 }
-
 
 .infoContainer-cardContainer-card-horizontal {
   width: 100%;
   background-color: $white;
   border: 1px solid $black;
-  display: flex;
-  flex-direction: column;
+  @include flexDisplay(column);
   align-items: center;
   margin: 1%;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .horizontalCard-activity-container {
-  display: flex;
-  flex-direction: row;
+  @include flexDisplay(row);
   justify-content: space-around;
   width: 100%;
   overflow: scroll;
@@ -122,87 +111,51 @@ h1 {
   width: 100%;
   background-color: $white;
   border: 1px solid $black;
-  display: flex;
-  flex-direction: row;
+  @include flexDisplay(row);
   margin: 1%;
   overflow: scroll;
 }
 
-.card-today-hydration {
+@mixin todayDisplay($background, $fontSize, $margin, $content, $width) {
   text-align: center;
-  background-color: $hydration-background;
-  height: auto;
-  font-size: 1.5em;
-  margin: .5em;
+  background-color: $background;
+  font-size: $fontSize;
   font-family: $font-style;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 80%;
+  margin: $margin;
+  justify-content: $content;
+  width: $width;
+}
+
+.card-today-hydration {
+  @include todayDisplay($hydration-background, 1.5em, .5em, space-between, 80%)
+  @include flexDisplay(column);
 }
 
 .card-today-sleep {
-  text-align: center;
-  background-color: $sleep-background;
-  height: auto;
-  font-size: 1.5em;
-  margin: .5em;
-  font-family: $font-style;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 80%;
+  @include todayDisplay($sleep-background, 1.5em, .5em, space-between, 80%)
+  @include flexDisplay(column);
 }
 
 .card-today-activity {
-  text-align: center;
-  background-color: $activity-background;
-  height: auto;
-  font-size: 1.5em;
-  margin: .3em;
-  font-family: $font-style;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 40%;
+  @include todayDisplay($activity-background, 1.5em, .3em, space-between, 40%)
+  @include flexDisplay(column);
 }
 
 .card-history-hydration {
-  text-align: center;
-  background-color: $hydration-background;
-  font-size: 1em;
-  margin: .5em;
-  font-family: $font-style;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
+  @include todayDisplay($hydration-background, 1em, .5em, flex-start, 50%)
+  @include flexDisplay(column);
+
 }
 
 .card-history-sleep {
-  text-align: center;
-  background-color: $sleep-background;
-  font-size: 1em;
-  margin: .5em;
-  font-family: $font-style;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
+  @include todayDisplay($sleep-background, 1em, .5em, flex-start, 50%)
+  @include flexDisplay(column);
+
 }
 
 .card-history-activity {
-  text-align: center;
-  background-color: $activity-background;
-  font-size: 1em;
-  margin: .5em;
-  font-family: $font-style;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
-  height: 93%;
-  overflow: scroll;
+  @include todayDisplay($activity-background, 1em, .5em, flex-start, 50%)
+  @include flexDisplay(column);
 }
 
 .number {
@@ -212,7 +165,7 @@ h1 {
   font-kerning: normal;
 }
 
-.historicalWeek {
+@mixin weekDisplay {
   text-align: center;
   font-size: 1em;
   font-weight: bolder;
@@ -220,12 +173,12 @@ h1 {
   color: $black;
 }
 
+.historicalWeek {
+  @include weekDisplay;
+}
+
 .thisWeek {
-  text-align: center;
-  font-size: 1em;
-  font-weight: bolder;
-  margin: .5em;
-  color: $black;
+  @include weekDisplay;
 }
 
 .card-vertical-list {
@@ -240,4 +193,5 @@ h1 {
   padding: .3em;
   font-weight: bold;
   font-family: $font-style;
+  text-align: center;
 }
