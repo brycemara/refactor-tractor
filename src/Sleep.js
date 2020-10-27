@@ -36,22 +36,23 @@ class Sleep {
     let weekData = userRepo.getWeekDataForAllUsers(this.sleepData, date);
     let userSleepObject = userRepo.getUserAndRelevantData(this.sleepData, date, 'sleepQuality', weekData);
     let bestSleepers = Object.keys(userSleepObject).filter((key) => {
-      return this.sleepQuality(userSleepObject[key]) > 3;
+      return this.calculateSleepQualityAverage(userSleepObject[key]) > 3;
     });
     return bestSleepers.map((sleeper) => {
       return userRepo.getUserFromID(parseInt(sleeper)).name;
     });
   };
 
-  sleepQuality(array) {
-    let sleepQualityAverage = array.reduce((sum, sleepQualityValue) => {
+  calculateSleepQualityAverage(sleepQualityData) {
+    let sleepQualityAverage = sleepQualityData.reduce((sum, sleepQualityValue) => {
       sum += sleepQualityValue;
       return sum;
-    }, 0) / array.length;
-    return sleepQualityAverage;
+    }, 0);
+    const average = sleepQualityAverage / sleepQualityData.length;
+    return average;
   };
 
-  determineSleepWinnerForWeek(date, userRepo) {
+  determineSleepQualityWinnerForWeek(date, userRepo) {
     let weekData = userRepo.getWeekDataForAllUsers(this.sleepData, date);
     let sleepRankWithData = userRepo.combineRankedUsersAndAverageData(this.sleepData, date, 'sleepQuality', weekData);
     return this.getWinnerNamesFromList(sleepRankWithData, userRepo);
@@ -74,7 +75,7 @@ class Sleep {
       return userRepo.getUserFromID(parseInt(sleepNumber)).name;
     });
   };
-}
+};
 
 
 export default Sleep;
