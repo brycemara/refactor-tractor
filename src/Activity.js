@@ -121,8 +121,7 @@ class Activity {
     return winnerID;
   };
 
-}
-
+};
 
 
 export default Activity;
