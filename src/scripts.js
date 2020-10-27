@@ -141,33 +141,33 @@ function makeSleepHTML(id, sleepInfo, userRepo, relevantData) {
 }
 
 function addActivityInfo(id, activityInfo, dateString, userRepo, winnerId, user) {
-  const userDailyActiveMinutes = activityInfo.userDataForToday(id, dateString, userRepo, 'minutesActive');
+  const userDailyActiveMinutes = activityInfo.getDailyUserData(id, dateString, userRepo, 'minutesActive');
   userMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${userDailyActiveMinutes}</span></p>`);
-  const usersAverage = activityInfo.getAllUserAverageForDay(dateString, userRepo, 'minutesActive');
+  const usersAverage = activityInfo.getAllUsersAverageForDay(dateString, userRepo, 'minutesActive');
   avgMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${usersAverage}</span></p>`);
   createDailyActivityData(id, activityInfo, dateString, userRepo);
   createWeeklyActivityData(id, activityInfo, dateString, userRepo, winnerId, user);
 }
 
 function createDailyActivityData(id, activityInfo, dateString, userRepo) {
-  const userDailyFlights = activityInfo.userDataForToday(id, dateString, userRepo, 'flightsOfStairs');
+  const userDailyFlights = activityInfo.getDailyUserData(id, dateString, userRepo, 'flightsOfStairs');
   userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${userDailyFlights}</span></p>`);
-  const usersAverageDailyFlights = activityInfo.getAllUserAverageForDay(dateString, userRepo, 'flightsOfStairs');
+  const usersAverageDailyFlights = activityInfo.getAllUsersAverageForDay(dateString, userRepo, 'flightsOfStairs');
   avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${usersAverageDailyFlights}</span></p>`);
-  const userSteps = activityInfo.userDataForToday(id, dateString, userRepo, 'numSteps');
+  const userSteps = activityInfo.getDailyUserData(id, dateString, userRepo, 'numSteps');
   userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${userSteps}</span></p>`);
-  const usersAverageDailySteps = activityInfo.getAllUserAverageForDay(dateString, userRepo, 'numSteps');
+  const usersAverageDailySteps = activityInfo.getAllUsersAverageForDay(dateString, userRepo, 'numSteps');
   avgStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${usersAverageDailyFlights}</span></p>`);
 }
 
 function createWeeklyActivityData(id, activityInfo, dateString, userRepo, winnerId, user) {
-  const weeklySteps = createActivityHTML(activityInfo.userDataForWeek(id, dateString, userRepo, "numSteps"), "steps");
+  const weeklySteps = createActivityHTML(activityInfo.getWeeklyUserData(id, dateString, userRepo, "numSteps"), "steps");
   userStepsThisWeek.insertAdjacentHTML("afterBegin", weeklySteps);
-  const weeklyFlights = createActivityHTML(activityInfo.userDataForWeek(id, dateString, userRepo, "flightsOfStairs"), "flights");
+  const weeklyFlights = createActivityHTML(activityInfo.getWeeklyUserData(id, dateString, userRepo, "flightsOfStairs"), "flights");
   userStairsThisWeek.insertAdjacentHTML("afterBegin", weeklyFlights);
-  const minutesActive = createActivityHTML(activityInfo.userDataForWeek(id, dateString, userRepo, "minutesActive"), "minutes");
+  const minutesActive = createActivityHTML(activityInfo.getWeeklyUserData(id, dateString, userRepo, "minutesActive"), "minutes");
   userMinutesThisWeek.insertAdjacentHTML("afterBegin", minutesActive);
-  const bestSteps = createActivityHTML(activityInfo.userDataForWeek(winnerId, dateString, userRepo, "numSteps"), 'steps');
+  const bestSteps = createActivityHTML(activityInfo.getWeeklyUserData(winnerId, dateString, userRepo, "numSteps"), 'steps');
   bestUserSteps.insertAdjacentHTML("afterBegin", bestSteps);
 }
 
@@ -176,13 +176,13 @@ function createActivityHTML(relevantData, relevantDataName) {
 }
 
 function addFriendGameInfo(id, activityInfo, userRepo, dateString, laterDateString, user) {
-  const challengeWinner = activityInfo.showChallengeListAndWinner(user, dateString, userRepo);
+  const challengeWinner = activityInfo.getChallengeListAndWinner(user, dateString, userRepo);
   friendChallengeListToday.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, challengeWinner));
-  const stepStreak = activityInfo.getStreak(userRepo, id, 'numSteps');
+  const stepStreak = activityInfo.getStreakDays(userRepo, id, 'numSteps');
   streakList.insertAdjacentHTML("afterBegin", makeStepStreakHTML(id, stepStreak));
-  const minutesStreak = activityInfo.getStreak(userRepo, id, 'minutesActive');
+  const minutesStreak = activityInfo.getStreakDays(userRepo, id, 'minutesActive');
   streakListMinutes.insertAdjacentHTML("afterBegin", makeStepStreakHTML(id, minutesStreak));
-  const challengeList = activityInfo.showChallengeListAndWinner(user, dateString, userRepo);
+  const challengeList = activityInfo.getChallengeListAndWinner(user, dateString, userRepo);
   friendChallengeListHistory.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, challengeList));
   const winnerInfo = activityInfo.showcaseWinner(user, dateString, userRepo);
   bigWinner.insertAdjacentHTML('afterBegin', `THIS WEEK'S WINNER! ${winnerInfo} steps`);
