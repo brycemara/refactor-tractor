@@ -15,8 +15,9 @@ import Hydration from './Hydration';
 import Sleep from './Sleep';
 import UserRepo from './User-repo';
 
-let sidebarName = document.getElementById('sidebarName');
-let stepGoalCard = document.getElementById('stepGoalCard');
+let sidebarName = document.getElementById('sidebarUserName');
+let stepGoalCard = document.getElementById('userStepGoalCard');
+let avStepGoalCard = document.getElementById('averageStepsGoalCard');
 let headerText = document.getElementById('headerText');
 let userAddress = document.getElementById('userAddress');
 let userEmail = document.getElementById('userEmail');
@@ -87,7 +88,7 @@ function addInfoToSidebar(user, userRepo) {
   sidebarName.innerText = user.name;
   headerText.innerText = `${user.getFirstName()}'s Activity Tracker`;
   stepGoalCard.innerText = `Your daily step goal is ${user.dailyStepGoal}.`;
-  avStepGoalCard.innerText = `The average daily step goal is ${userRepo.calculateAverageStepGoal()}`;
+  avStepGoalCard.innerText = `The average daily step goal is ${userRepo.calculateAverageStepGoal()}.`;
   userAddress.innerText = user.address;
   userEmail.innerText = user.email;
   userStridelength.innerText = `Your stridelength is ${user.strideLength} meters.`;
