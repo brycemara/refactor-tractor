@@ -60,8 +60,8 @@ window.onload = () => {
 
 function startApp() {
   let userNowId = Math.floor(Math.random() * 50);
-  let userNow = userRepo.getDataFromID(userNowId);
-  let today = userRepo.getToday(userNowId, hydrationRepo.hydrationData);
+  let userNow = userRepo.getUserFromID(userNowId);
+  let today = userRepo.getCurrentDate(userNowId, hydrationRepo.hydrationData);
   let randomHistory = makeRandomDate(userRepo, userNowId, hydrationRepo.hydrationData);
   let winnerNow = activityRepo.getWinnerId(userNow, today, userRepo);
   displayUserInfo(userNow, userNowId, today, randomHistory, winnerNow);

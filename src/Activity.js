@@ -17,7 +17,7 @@ class Activity {
   };
 
   calculateActiveAverageForWeek(id, date, userRepo) {
-    let week = userRepo.getWeekFromDate(date, id, this.activityData);
+    let week = userRepo.getWeekByDate(date, id, this.activityData);
     let weekActiveMin =  week.reduce((sum, user) => {
       return sum += user.minutesActive;
     }, 0);
@@ -46,7 +46,7 @@ class Activity {
   };
 
   getAllUserAverageForDay(date, userRepo, relevantData) {
-    let selectedDayData = userRepo.chooseDayDataForAllUsers(this.activityData, date);
+    let selectedDayData = userRepo.getDayDataForAllUsers(this.activityData, date);
     let stairsAverage = selectedDayData.reduce((sum, user) => sum += user[relevantData], 0) / selectedDayData.length;
     let formattedAverage = parseFloat(stairsAverage.toFixed(1));
     return formattedAverage;
@@ -59,7 +59,7 @@ class Activity {
   };
 
   userDataForWeek(id, date, userRepo, releventData) {
-    let dataByWeek = userRepo.getWeekFromDate(date, id, this.activityData);
+    let dataByWeek = userRepo.getWeekByDate(date, id, this.activityData);
     let formattedData = dataByWeek.map((data) => `${data.date}: ${data[releventData]}`);
     return formattedData;
   };
@@ -77,8 +77,8 @@ class Activity {
 
   getFriendsAverageStepsForWeek(user, date, userRepo) {
     let friendsActivity = this.getFriendsActivity(user, userRepo);
-    let timeline = userRepo.chooseWeekDataForAllUsers(friendsActivity, date);
-    let rankedFriendsActivity = userRepo.combineRankedUserIDsAndAveragedData(friendsActivity, date, 'numSteps', timeline);
+    let weekData = userRepo.getWeekDataForAllUsers(friendsActivity, date);
+    let rankedFriendsActivity = userRepo.combineRankedUsersAndAverageData(friendsActivity, date, 'numSteps', weekData);
     return rankedFriendsActivity;
   };
 
@@ -86,7 +86,7 @@ class Activity {
     let rankedList = this.getFriendsAverageStepsForWeek(user, date, userRepo);
     let rankedFriendsActivity = rankedList.map((friend) => {
       let userID = Object.keys(friend)[0];
-      let userName = userRepo.getDataFromID(parseInt(userID)).name;
+      let userName = userRepo.getUserFromID(parseInt(userID)).name;
       return `${userName}: ${friend[userID]}`;
     });
     return rankedFriendsActivity;

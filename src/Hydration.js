@@ -24,7 +24,7 @@ class Hydration {
   };
 
   calculateRandomWeekOunces(date, id, userRepo) {
-    let week = userRepo.getWeekFromDate(date, id, this.hydrationData);
+    let week = userRepo.getWeekByDate(date, id, this.hydrationData);
     let weekOunces = week.map((data) => `${data.date}: ${data.numOunces}`);
     return weekOunces;
   };

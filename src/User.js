@@ -14,7 +14,7 @@ class User {
   };
 
   getFriendsNames(dataSet) {
-    return this.friends.map((friendId) => (dataSet.getDataFromID(friendId).name));
+    return this.friends.map((friendId) => (dataSet.getUserFromID(friendId).name));
   };
 };
 

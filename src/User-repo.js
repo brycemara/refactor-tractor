@@ -3,7 +3,7 @@ class UserRepo {
     this.users = users;
   };
 
-  getDataFromID(id) {
+  getUserFromID(id) {
     return this.users.find((user) => id === user.id);
   };
 
@@ -12,8 +12,8 @@ class UserRepo {
   };
 
   calculateAverageStepGoal() {
-    const totalStepGoal = this.users.reduce((sumSoFar, data) => {
-      return sumSoFar += data.dailyStepGoal;
+    const totalStepGoal = this.users.reduce((sum, data) => {
+      return sum += data.dailyStepGoal;
     }, 0);
     const averageSteps = totalStepGoal / this.users.length;
     return averageSteps;
@@ -25,7 +25,7 @@ class UserRepo {
     return sortedByDate;
   };
 
-  getToday(id, dataSet) {
+  getCurrentDate(id, dataSet) {
     return this.makeSortedUserArray(id, dataSet)[0].date;
   };
 
@@ -33,59 +33,61 @@ class UserRepo {
     return this.makeSortedUserArray(id, dataSet).slice(0, 7);
   };
 
-  getWeekFromDate(date, id, dataSet) {
+  getWeekByDate(date, id, dataSet) {
     let user = this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date));
     let dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(user);
     let week = this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
     return week;
   };
 
-  chooseWeekDataForAllUsers(dataSet, date) {
+  getWeekDataForAllUsers(dataSet, date) {
     let allUserData = dataSet.filter((dataItem) => {
       return (new Date(date)).setDate((new Date(date)).getDate() - 7) <= new Date(dataItem.date) && new Date(dataItem.date) <= new Date(date);
     });
     return allUserData;
   };
 
-  chooseDayDataForAllUsers(dataSet, date) {
+  getDayDataForAllUsers(dataSet, date) {
     let userData = dataSet.filter((dataItem) => {
       return dataItem.date === date
     });
     return userData;
   };
 
-  isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod) {
-    let userData = listFromMethod.reduce((objectSoFar, dataItem) => {
-      if (!objectSoFar[dataItem.userID]) {
-        objectSoFar[dataItem.userID] = [dataItem[relevantData]];
+  getUserAndRelevantData(dataSet, date, relevantData, timelineData) {
+    let userData = timelineData.reduce((userObject, dataItem) => {
+      if (!userObject[dataItem.userID]) {
+        userObject[dataItem.userID] = [dataItem[relevantData]];
       } else {
-        objectSoFar[dataItem.userID].push(dataItem[relevantData]);
+        userObject[dataItem.userID].push(dataItem[relevantData]);
       }
-      return objectSoFar;
+      return userObject;
     }, {});
     return userData;
   };
 
-  rankUserIDsbyRelevantDataValue(dataSet, date, relevantData, listFromMethod) {
-    let sortedObjectKeys = this.isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod);
+  rankUsersByDataValue(dataSet, date, relevantData, timelineData) {
+    let sortedObjectKeys = this.getUserAndRelevantData(dataSet, date, relevantData, timelineData);
     let dataValue = Object.keys(sortedObjectKeys).sort((b, a) => {
-      return (this.getAverageRelevantData(sortedObjectKeys[a])) - (this.getAverageRelevantData(sortedObjectKeys[b]));
+      return (this.getUserAverageData(sortedObjectKeys[a])) - (this.getUserAverageData(sortedObjectKeys[b]));
     });
     return dataValue;
   };
 
-  getAverageRelevantData(propertyValues) {
-    return propertyValues.reduce((sum, currentData) => {
+  getUserAverageData(propertyValues) {
+    const totalUserData = propertyValues.reduce((sum, currentData) => {
       sum += currentData
       return sum;
-    }, 0) / propertyValues.length;
+    }, 0);
+    const average = totalUserData / propertyValues.length;
+    return average;
   };
 
-  combineRankedUserIDsAndAveragedData(dataSet, date, relevantData, listFromMethod) {
-    let sortedObjectKeys = this.isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod);
-    let rankedUsers = this.rankUserIDsbyRelevantDataValue(dataSet, date, relevantData, listFromMethod);
+  combineRankedUsersAndAverageData(dataSet, date, relevantData, timelineData) {
+    let sortedObjectKeys = this.getUserAndRelevantData(dataSet, date, relevantData, timelineData);
+    let rankedUsers = this.rankUsersByDataValue(dataSet, date, relevantData, timelineData);
     let rankedUsersAndAverages = rankedUsers.reduce((rankedAverages, user) => {
-      let updatedUser = {[user] : this.getAverageRelevantData(sortedObjectKeys[user])}
+      let updatedUser = {[user] : this.getUserAverageData(sortedObjectKeys[user])}
       rankedAverages.push(updatedUser)
       return rankedAverages;
     }, []);
