@@ -4,16 +4,46 @@ import './css/style.scss';
 import './images/person walking on path.jpg';
 import './images/The Rock.jpg';
 
-import userData from './data/users';
-import hydrationData from './data/hydration';
-import sleepData from './data/sleep';
-import activityData from './data/activity';
-
 import User from './User';
 import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 import UserRepo from './User-repo';
+
+let userList;
+let userRepo;
+let hydrationRepo;
+let sleepRepo;
+let activityRepo;
+
+let fetchedUserData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
+  .then(response => response.json())
+  .then(data => data.userData)
+  .catch(error => console.log(error.message));
+
+let fetchedSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData')
+  .then(response => response.json())
+  .then(data => data.sleepData)
+  .catch(error => console.log(error.message));
+
+let fetchedHydrationData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData')
+  .then(response => response.json())
+  .then(data => data.hydrationData)
+  .catch(error => console.log(error.message));
+
+let fetchedActivityData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData')
+  .then(response => response.json())
+  .then(data => data.activityData)
+  .catch(error => console.log(error.message));
+
+Promise.all([fetchedUserData, fetchedSleepData, fetchedHydrationData, fetchedActivityData]).then(values => {
+  userList = createUsers(values[0]);
+  userRepo = new UserRepo(userList);
+  sleepRepo = new Sleep(values[1]);
+  hydrationRepo = new Hydration(values[2]);
+  activityRepo = new Activity(values[3]);
+  startApp();
+});
 
 const sidebarName = document.getElementById('sidebarUserName');
 const stepGoalCard = document.getElementById('userStepGoalCard');
@@ -48,17 +78,12 @@ const userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
 const bestUserSteps = document.getElementById('bestUserSteps');
 const streakList = document.getElementById('streakList');
 const streakListMinutes = document.getElementById('streakListMinutes')
-const userList = createUsers();
-const userRepo = new UserRepo(userList);
-const hydrationRepo = new Hydration(hydrationData);
-const sleepRepo = new Sleep(sleepData);
-const activityRepo = new Activity(activityData);
-
-window.onload = () => {
-  startApp();
-};
 
 function startApp() {
+  getCurrentInfo();
+};
+
+function getCurrentInfo() {
   const userNowId = Math.floor(Math.random() * 50);
   const userNow = userRepo.getUserFromID(userNowId);
   const today = userRepo.getCurrentDate(userNowId, hydrationRepo.hydrationData);
@@ -76,7 +101,7 @@ function displayUserInfo(userNow, userNowId, today, randomHistory, winnerNow) {
   historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
 };
 
-function createUsers() {
+function createUsers(userData) {
   return userData.reduce((userList, userInfo) => {
     let user = new User(userInfo);
     userList.push(user);

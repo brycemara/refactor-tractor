@@ -23,6 +23,11 @@ h1 {
   padding-top: 10px;
 }
 
+input {
+  height: 15px;
+  width: 50px;
+}
+
 .main {
   @include flexDisplay(row);
   height: 1500px;
@@ -115,6 +120,22 @@ h1 {
   margin: 1%;
   overflow: scroll;
 }
+
+.activity-input {
+  display: flex;
+  justify-content: center;
+}
+
+.sleep-input {
+  display: flex;
+  justify-content: center;
+}
+
+.hydration-input {
+  display: flex;
+  justify-content: center;
+}
+
 
 @mixin todayDisplay($background, $fontSize, $margin, $content, $width) {
   text-align: center;
