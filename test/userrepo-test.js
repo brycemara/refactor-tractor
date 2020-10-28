@@ -57,7 +57,7 @@ describe('User Repo', function() {
     expect(userRepo.calculateAverageStepGoal()).to.eql(9500);
   });
 
-  describe.only('array changes', function() {
+  describe('array changes', function() {
     let user1;
     let user2;
     let user3;

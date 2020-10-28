@@ -98,7 +98,6 @@ class Activity {
     return winner;
   };
 
-  //TODO: can this reduce be a filter?
   getStreakDays(userRepo, id, relevantData) {
     let data = this.activityData;
     let sortedUserArray = (userRepo.makeSortedUserArray(id, data)).reverse();
@@ -112,7 +111,6 @@ class Activity {
     return streaks;
   };
 
-//TODO: Write test for isQualifyingDay
   isQualifyingDay(sortedUserArray, index, relevantData) {
     if (index >= 2) {
       return sortedUserArray[index - 2][relevantData] < sortedUserArray[index - 1][relevantData] && sortedUserArray[index - 1][relevantData] < sortedUserArray[index][relevantData]
