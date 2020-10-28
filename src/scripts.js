@@ -4,16 +4,130 @@ import './css/style.scss';
 import './images/person walking on path.jpg';
 import './images/The Rock.jpg';
 
-import userData from './data/users';
-import hydrationData from './data/hydration';
-import sleepData from './data/sleep';
-import activityData from './data/activity';
-
 import User from './User';
 import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 import UserRepo from './User-repo';
+
+let userList;
+let userRepo;
+let hydrationRepo;
+let sleepRepo;
+let activityRepo;
+
+let fetchedUserData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
+  .then(response => response.json())
+  .then(data => data.userData)
+  .catch(error => console.log(error.message));
+
+let fetchedSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData')
+  .then(response => response.json())
+  .then(data => data.sleepData)
+  .catch(error => console.log(error.message));
+
+let fetchedHydrationData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData')
+  .then(response => response.json())
+  .then(data => data.hydrationData)
+  .catch(error => console.log(error.message));
+
+let fetchedActivityData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData')
+  .then(response => response.json())
+  .then(data => data.activityData)
+  .catch(error => console.log(error.message));
+
+Promise.all([fetchedUserData, fetchedSleepData, fetchedHydrationData, fetchedActivityData]).then(values => {
+  userList = createUsers(values[0]);
+  userRepo = new UserRepo(userList);
+  sleepRepo = new Sleep(values[1]);
+  hydrationRepo = new Hydration(values[2]);
+  activityRepo = new Activity(values[3]);
+  startApp();
+});
+
+let sleepIdInfo = document.getElementById('sleep-userID-input');
+let sleepDateInfo = document.getElementById('sleep-date-input');
+let sleepHoursSleptInfo = document.getElementById('sleep-hoursSlept-input');
+let sleepSleepQualityInfo = document.getElementById('sleep-sleepQuality-input');
+
+function buildSleepObject() {
+  let newData = {userID: parseInt(sleepIdInfo.value),
+  date: sleepDateInfo.value,
+  hoursSlept: parseInt(sleepHoursSleptInfo.value),
+  sleepQuality: parseInt(sleepSleepQualityInfo.value)};
+  return newData;
+};
+
+function postSleepData() {
+  let newData = buildSleepObject();
+  let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
+    method: 'POST',
+    headers: {
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify(newData)
+  })
+  .then(response => response.json())
+  .catch(error => console.log(error.message))
+};
+
+
+let hydrationIdInfo = document.getElementById('hydration-userID-input');
+let hydrationDateInfo = document.getElementById('hydration-date-input');
+let hydrationOuncesInfo = document.getElementById('hydration-ounces-input');
+
+function buildHydrationObject() {
+  let newData = {userID: parseInt(hydrationIdInfo.value),
+  date: hydrationDateInfo.value,
+  numOunces: parseInt(hydrationOuncesInfo.value),
+  };
+  return newData;
+};
+
+function postHydrationData() {
+  let newData = buildHydrationObject();
+  let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData', {
+    method: 'POST',
+    headers: {
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify(newData)
+  })
+  .then(response => response.json())
+  .catch(error => console.log(error.message))
+};
+
+let activityIdInfo = document.getElementById('activity-userID-input')
+let activityDateInfo = document.getElementById('activity-date-input')
+let activityNumStepsInfo = document.getElementById('activity-numSteps-input')
+let activityMinsActiveInfo = document.getElementById('activity-minsActive-input')
+let activityFlightsOfStairsInfo = document.getElementById('activity-flightsOfStairs-input')
+
+function buildActivityObject() {
+  let newData = {userID: parseInt(activityIdInfo.value),
+  date: activityDateInfo.value,
+  numSteps: parseInt(activityNumStepsInfo.value),
+  minutesActive: parseInt(activityMinsActiveInfo.value),
+  flightsOfStairs: parseInt(activityFlightsOfStairsInfo.value)};
+  return newData;
+};
+
+function postActivityData() {
+  let newData = buildActivityObject();
+  let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
+    method: 'POST',
+    headers: {
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify(newData)
+  })
+  .then(response => response.json())
+  .catch(error => console.log(error.message))
+};
+
+document.querySelector('#submit-sleep-info').addEventListener('click', postSleepData);
+document.querySelector('#submit-hydration-info').addEventListener('click', postHydrationData);
+document.querySelector('#submit-activity-info').addEventListener('click', postActivityData);
 
 const sidebarName = document.getElementById('sidebarUserName');
 const stepGoalCard = document.getElementById('userStepGoalCard');
@@ -48,17 +162,12 @@ const userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
 const bestUserSteps = document.getElementById('bestUserSteps');
 const streakList = document.getElementById('streakList');
 const streakListMinutes = document.getElementById('streakListMinutes')
-const userList = createUsers();
-const userRepo = new UserRepo(userList);
-const hydrationRepo = new Hydration(hydrationData);
-const sleepRepo = new Sleep(sleepData);
-const activityRepo = new Activity(activityData);
-
-window.onload = () => {
-  startApp();
-};
 
 function startApp() {
+  getCurrentInfo();
+};
+
+function getCurrentInfo() {
   const userNowId = Math.floor(Math.random() * 50);
   const userNow = userRepo.getUserFromID(userNowId);
   const today = userRepo.getCurrentDate(userNowId, hydrationRepo.hydrationData);
@@ -76,7 +185,7 @@ function displayUserInfo(userNow, userNowId, today, randomHistory, winnerNow) {
   historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
 };
 
-function createUsers() {
+function createUsers(userData) {
   return userData.reduce((userList, userInfo) => {
     let user = new User(userInfo);
     userList.push(user);
@@ -122,7 +231,7 @@ function makeHydrationHTML(id, hydrationInfo, userRepo, relevantData) {
   return hydration;
 };
 
-function addSleepInfo(id, sleepInfo, dateString, userRepo, laterDateString) {
+function addSleepInfo(id, sleepInfo, dateString, userRepo) {
   const sleepHours = sleepInfo.calculateDailyTotal(id, dateString, 'hoursSlept');
   sleepToday.insertAdjacentHTML("afterBegin", `<p>You slept</p> <p><span class="number">${sleepHours}</span></p> <p>hours today.</p>`);
   const sleepQuality = sleepInfo.calculateDailyTotal(id, dateString, 'sleepQuality');
@@ -131,7 +240,7 @@ function addSleepInfo(id, sleepInfo, dateString, userRepo, laterDateString) {
   avUserSleepQuality.insertAdjacentHTML("afterBegin", `<p>The average user's sleep quality is</p> <p><span class="number">${averageSleepQuality}</span></p><p>out of 5.</p>`);
   const weekSleepTotal = sleepInfo.calculateWeekTotal(dateString, id, userRepo, 'hoursSlept');
   sleepThisWeek.insertAdjacentHTML('afterBegin', makeSleepHTML(id, sleepInfo, userRepo, weekSleepTotal));
-  const weekSleepQuality = sleepInfo.calculateWeekTotal(laterDateString, id, userRepo, 'sleepQuality');
+  const weekSleepQuality = sleepInfo.calculateWeekTotal(dateString, id, userRepo, 'sleepQuality');
   sleepEarlierWeek.insertAdjacentHTML('afterBegin', makeSleepHTML(id, sleepInfo, userRepo, weekSleepQuality));
 }
 

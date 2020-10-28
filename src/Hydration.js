@@ -5,7 +5,7 @@ class Hydration {
 
   calculateDailyOunces(id, date) {
     let findOuncesByDate = this.hydrationData.find((data) => id === data.userID && date === data.date);
-    return findOuncesByDate.numOunces;
+    return findOuncesByDate.numOunces
   };
 
   calculateAverageDailyOunces(id) {
@@ -14,7 +14,7 @@ class Hydration {
       return sum += user.numOunces;
     }, 0)
     let averageHydration = dailyHydration / perDayUserHydration.length;
-    return averageHydration;
+    return averageHydration.toFixed(1);
   };
 
   calculateFirstWeekOunces(userRepo, id) {
