@@ -46,7 +46,7 @@ describe('User Repo', function() {
   });
 
   it('should return user data when given user ID', function() {
-    let userData = userRepo.getDataFromID(1);
+    let userData = userRepo.getUserFromID(1);
 
     expect(userData).to.eql(user1);
   });
