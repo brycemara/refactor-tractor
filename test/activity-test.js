@@ -3,7 +3,7 @@ import Activity from '../src/Activity';
 import UserRepo from '../src/User-repo';
 import User from '../src/User';
 
-describe('Activity', function() {
+describe.only('Activity', function() {
   let activityData;
   let user1;
   let user2;
@@ -208,19 +208,19 @@ describe('Activity', function() {
   });
 
   it('should return the miles a given user has walked on a given date', function() {
-    let userData = activity.getMilesByDate(1, "2019/06/15", userRepo);
+    let userData = activity.getDailyMiles(1, "2019/06/15", userRepo);
 
     expect(userData).to.equal(2.9);
   });
 
   it('should return the number of minutes a given user was active for on a given day', function() {
-    let userData = activity.getActiveMinutesByDate(1, "2019/06/16");
+    let userData = activity.getDailyActiveMinutes(1, "2019/06/16");
 
     expect(userData).to.equal(12);
   });
 
   it('should return average active minutes in a given week', function() {
-    let weekActiveAverage = activity.calculateActiveAverageForWeek(1, "2019/06/21", userRepo);
+    let weekActiveAverage = activity.calculateActiveWeeklyAverage(1, "2019/06/21", userRepo);
 
     expect(weekActiveAverage).to.equal(40.4);
   });
@@ -253,7 +253,7 @@ describe('Activity', function() {
   });
 
   it('should return the average flight of stairs for all users on given day', function() {
-    let averageStairs = activity.getAllUserAverageForDay("2019/06/15", userRepo, "flightsOfStairs");
+    let averageStairs = activity.getAllUsersAverageForDay("2019/06/15", userRepo, "flightsOfStairs");
 
     expect(averageStairs).to.equal(21.2);
   });
@@ -281,7 +281,7 @@ describe('Activity', function() {
       "flightsOfStairs": 9
     });
 
-    let averageSteps = activity.getAllUserAverageForDay("2019/06/23", userRepo, "numSteps");
+    let averageSteps = activity.getAllUsersAverageForDay("2019/06/23", userRepo, "numSteps");
 
     expect(averageSteps).to.equal(8000);
   });
@@ -309,23 +309,23 @@ describe('Activity', function() {
       "flightsOfStairs": 9
     });
 
-    let averageActiveMin = activity.getAllUserAverageForDay("2019/06/23", userRepo, "minutesActive");
+    let averageActiveMin = activity.getAllUsersAverageForDay("2019/06/23", userRepo, "minutesActive");
 
     expect(averageActiveMin).to.equal(12.5);
   });
 
   it('should return relevant data for given user on given date', function() {
-    let userSteps = activity.userDataForToday(2, "2019/06/15", userRepo, 'numSteps');
-    let userActiveMin = activity.userDataForToday(1, "2019/06/18", userRepo, 'minutesActive');
+    let userSteps = activity.getDailyUserData(2, "2019/06/15", userRepo, 'numSteps');
+    let userActiveMin = activity.getDailyUserData(1, "2019/06/18", userRepo, 'minutesActive');
 
     expect(userSteps).to.equal(4294);
     expect(userActiveMin).to.equal(62);
   });
 
   it('should return a weeks worth of relevant data for a given user', function() {
-    let userWeekData1 = activity.userDataForWeek(1, "2019/06/23", userRepo, 'numSteps')[0];
-    let userWeekData2 = activity.userDataForWeek(1, "2019/06/23", userRepo, 'minutesActive')[3];
-    let userWeekData3 = activity.userDataForWeek(1, "2019/06/23", userRepo, 'flightsOfStairs')[0];
+    let userWeekData1 = activity.getWeeklyUserData(1, "2019/06/23", userRepo, 'numSteps')[0];
+    let userWeekData2 = activity.getWeeklyUserData(1, "2019/06/23", userRepo, 'minutesActive')[3];
+    let userWeekData3 = activity.getWeeklyUserData(1, "2019/06/23", userRepo, 'flightsOfStairs')[0];
 
     expect(userWeekData1).to.equal("2019/06/23: 9000");
     expect(userWeekData2).to.equal("2019/06/20: 7");
