@@ -1,6 +1,8 @@
-class Activity {
-  constructor(activityData) {
-    this.activityData = activityData
+import Health from './Health';
+class Activity extends Health {
+  constructor(data) {
+    super(data);
+    this.activityData = data;
   };
 
   getDailyMiles(id, date, userRepo) {
@@ -8,12 +10,6 @@ class Activity {
     let userRepoData = userRepo.users.find(user => id === user.id);
     let miles = parseFloat(((userStepsByDate.numSteps * userRepoData.strideLength) / 5280).toFixed(1));
     return miles;
-  };
-
-  getDailyActiveMinutes(id, date) {
-    let userActivityByDate = this.activityData.find(data => id === data.userID && date === data.date);
-    let activeMin = userActivityByDate.minutesActive;
-    return activeMin;
   };
 
   calculateActiveWeeklyAverage(id, date, userRepo) {

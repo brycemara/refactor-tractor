@@ -216,9 +216,9 @@ function getRandomDate(userRepo, id, dataSet) {
 };
 
 function addHydrationInfo(id, hydrationInfo, dateString, userRepo, laterDateString) {
-  const dailyOunces = hydrationInfo.calculateDailyOunces(id, dateString);
+  const dailyOunces = hydrationInfo.calculateDailyTotal(id, dateString, 'numOunces');
   hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${dailyOunces}</span></p><p>oz water today.</p>`);
-  const averageOunces = hydrationInfo.calculateAverageDailyOunces(id);
+  const averageOunces = hydrationInfo.calculateAverage(id, 'numOunces');
   hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${averageOunces}</span></p> <p>oz per day.</p>`);
   const firstWeekOunces = hydrationInfo.calculateFirstWeekOunces(userRepo, id);
   hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userRepo, firstWeekOunces));

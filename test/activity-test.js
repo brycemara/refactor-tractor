@@ -214,7 +214,7 @@ describe('Activity', function() {
   });
 
   it('should return the number of minutes a given user was active for on a given day', function() {
-    let userData = activity.getDailyActiveMinutes(1, "2019/06/16");
+    let userData = activity.calculateDailyTotal(1, "2019/06/16", 'minutesActive');
 
     expect(userData).to.equal(12);
   });
