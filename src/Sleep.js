@@ -65,16 +65,26 @@ class Sleep {
   };
 
   getWinnerNamesFromList(sortedArray, userRepo) {
-    let bestSleepers = sortedArray.filter((element) => {
-      return element[Object.keys(element)] === Object.values(sortedArray[0])[0]
-    });
-    let bestSleeperIds = bestSleepers.map((bestSleeper) => {
-      return (Object.keys(bestSleeper));
-    });
+    let bestSleepers = this.getBestSleepers(sortedArray);
+    let bestSleeperIds = this.getBestSleepersIds(bestSleepers);
     return bestSleeperIds.map((sleepNumber) => {
       return userRepo.getUserFromID(parseInt(sleepNumber)).name;
     });
   };
+
+  getBestSleepers(sortedArray) {
+    let bestSleepers = sortedArray.filter((element) => {
+      return element[Object.keys(element)] === Object.values(sortedArray[0])[0]
+    });
+    return bestSleepers;
+  };
+
+  getBestSleepersIds(bestSleepers) {
+    let bestSleeperIds = bestSleepers.map((bestSleeper) => {
+      return (Object.keys(bestSleeper));
+    });
+    return bestSleeperIds;
+  }
 };
 
 

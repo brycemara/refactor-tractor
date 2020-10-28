@@ -46,7 +46,7 @@ describe('User Repo', function() {
   });
 
   it('should return user data when given user ID', function() {
-    let userData = userRepo.getDataFromID(1);
+    let userData = userRepo.getUserFromID(1);
 
     expect(userData).to.eql(user1);
   });
@@ -460,7 +460,7 @@ describe('User Repo', function() {
     });
 
     it('should get a users most recent date using the app', function() {
-      let userRecent = userRepo.getToday(4, hydrationData)
+      let userRecent = userRepo.getCurrentDate(4, hydrationData)
       expect(userRecent).to.eql("2019/09/20");
     });
 
@@ -471,32 +471,32 @@ describe('User Repo', function() {
     });
 
     it('should get a sorted week of data for a single user from a date', function() {
-      let week1 = userRepo.getWeekFromDate('2019/09/17', 4, hydrationData)[3].date;
-      let week2 = userRepo.getWeekFromDate('2019/09/18', 4, hydrationData)[3].date;
+      let week1 = userRepo.getWeekByDate('2019/09/17', 4, hydrationData)[3].date;
+      let week2 = userRepo.getWeekByDate('2019/09/18', 4, hydrationData)[3].date;
 
       expect(week1).to.eql("2019/04/15");
       expect(week2).to.eql("2019/09/15");
     });
 
     it('should get a week of data for all users in data set', function() {
-      let chosenWeek1 = userRepo.chooseWeekDataForAllUsers(hydrationData, '2019/09/17')[2].date;
-      let chosenWeek2 = userRepo.chooseWeekDataForAllUsers(hydrationData, '2019/09/17')[3].userID;
+      let chosenWeek1 = userRepo.getWeekDataForAllUsers(hydrationData, '2019/09/17')[2].date;
+      let chosenWeek2 = userRepo.getWeekDataForAllUsers(hydrationData, '2019/09/17')[3].userID;
 
       expect(chosenWeek1).to.eql("2019/09/15");
       expect(chosenWeek2).to.eql(3);
     });
 
     it('should get a day of data for all users in data set', function() {
-      let userData1 = userRepo.chooseDayDataForAllUsers(sleepData, '2019/06/15')[0].date;
-      let userData2 = userRepo.chooseDayDataForAllUsers(sleepData, '2019/06/15')[2].userID;
+      let userData1 = userRepo.getDayDataForAllUsers(sleepData, '2019/06/15')[0].date;
+      let userData2 = userRepo.getDayDataForAllUsers(sleepData, '2019/06/15')[2].userID;
 
       expect(userData1).to.eql('2019/06/15');
       expect(userData2).to.eql(5);
     });
 
     it('should return values of relevant data based on user ID', function() {
-      let userData1 = userRepo.isolateUsernameAndRelevantData(sleepData, "2019/06/21", 'sleepQuality', userRepo.chooseWeekDataForAllUsers(sleepData, "2019/06/21"));
-      let userData2 = userRepo.isolateUsernameAndRelevantData(hydrationData, "2019/05/09", 'numOunces', userRepo.chooseWeekDataForAllUsers(hydrationData, "2019/05/09"));
+      let userData1 = userRepo.getUserAndRelevantData(sleepData, "2019/06/21", 'sleepQuality', userRepo.getWeekDataForAllUsers(sleepData, "2019/06/21"));
+      let userData2 = userRepo.getUserAndRelevantData(hydrationData, "2019/05/09", 'numOunces', userRepo.getWeekDataForAllUsers(hydrationData, "2019/05/09"));
 
       expect(userData1).to.eql({
         '2': [3.5, 4, 3.3, 3.6, 3.6, 4, 3.1],
@@ -509,13 +509,13 @@ describe('User Repo', function() {
     });
 
     it('should rank user ids according to relevant data value averages', function() {
-      let userData = userRepo.rankUserIDsbyRelevantDataValue(sleepData, "2019/06/21", 'sleepQuality', userRepo.chooseWeekDataForAllUsers(sleepData, "2019/06/21"));
+      let userData = userRepo.rankUsersByDataValue(sleepData, "2019/06/21", 'sleepQuality', userRepo.getWeekDataForAllUsers(sleepData, "2019/06/21"));
 
       expect(userData).to.eql(['5', '2', '4']);
     });
 
     it('should show list in order of userID and average of relevant value', function() {
-      let usersData = userRepo.combineRankedUserIDsAndAveragedData(sleepData, "2019/06/21", 'sleepQuality', userRepo.chooseWeekDataForAllUsers(sleepData, "2019/06/21"));
+      let usersData = userRepo.combineRankedUsersAndAverageData(sleepData, "2019/06/21", 'sleepQuality', userRepo.getWeekDataForAllUsers(sleepData, "2019/06/21"));
 
       expect(usersData[0]).to.eql({'5': 4});
     });

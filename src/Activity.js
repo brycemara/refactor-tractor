@@ -102,16 +102,20 @@ class Activity {
     let data = this.activityData;
     let sortedUserArray = (userRepo.makeSortedUserArray(id, data)).reverse();
     let streaks = sortedUserArray.reduce((streakDays, currentDay, index) => {
-      let qualifyingDay;
-      if (index >= 2) {
-        qualifyingDay = (sortedUserArray[index - 2][relevantData] < sortedUserArray[index - 1][relevantData] && sortedUserArray[index - 1][relevantData] < sortedUserArray[index][relevantData]);
-      };
+      let qualifyingDay = this.isQualifyingDay(sortedUserArray, index, relevantData);
       if (qualifyingDay) {
         streakDays.push(currentDay.date);
       }
       return streakDays;
     }, []);
     return streaks;
+  };
+
+  isQualifyingDay(sortedUserArray, index, relevantData) {
+    if (index >= 2) {
+      return sortedUserArray[index - 2][relevantData] < sortedUserArray[index - 1][relevantData] && sortedUserArray[index - 1][relevantData] < sortedUserArray[index][relevantData]
+    }
+    return false;
   };
 
   getWinnerId(user, date, userRepo) {
