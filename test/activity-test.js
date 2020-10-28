@@ -3,7 +3,7 @@ import Activity from '../src/Activity';
 import UserRepo from '../src/User-repo';
 import User from '../src/User';
 
-describe.only('Activity', function() {
+describe('Activity', function() {
   let activityData;
   let user1;
   let user2;
@@ -334,7 +334,7 @@ describe.only('Activity', function() {
 
 })
 
-describe('Friend Activity', function() {
+describe.only('Friend Activity', function() {
   let activityData;
   let activity;
   let user1;
@@ -502,7 +502,7 @@ describe('Friend Activity', function() {
   });
 
   it('should get a users friend lists activity', function() {
-    let friendsActivityData = activity.getFriendsActivity(user4, userRepo);
+    let friendsActivityData = activity.getFriendsActivityData(user4, userRepo);
 
     expect(friendsActivityData.length).to.equal(9);
   });
@@ -519,17 +519,16 @@ describe('Friend Activity', function() {
     ]);
   });
 
-  it('should get a users ranked friendslist activity for a chosen week with names', function() {
-    let rankedFriendsActivity = activity.showChallengeListAndWinner(user4, "2019/06/15", userRepo);
+  it('should get a winner from the randked friends list', function() {
+    let rankedFriendsActivity = activity.showcaseWinner(user4, "2019/06/15", userRepo);
 
-    expect(rankedFriendsActivity).to.deep.equal([
-      'Allie McCarthy: 9552', 'Alex Roth: 7475.5'
-    ]);
+    expect(rankedFriendsActivity).to.equal(
+      'Allie McCarthy: 9552');
   });
 
   it('should show a 3-day increasing streak for a users step count', function() {
-    let activityStreak1 = activity.getStreak(userRepo, 1, 'numSteps');
-    let activityStreak2 = activity.getStreak(userRepo, 1, 'minutesActive');
+    let activityStreak1 = activity.getStreakDays(userRepo, 1, 'numSteps');
+    let activityStreak2 = activity.getStreakDays(userRepo, 1, 'minutesActive');
 
     expect(activityStreak1).to.deep.equal(['2019/06/17', '2019/06/18']);
     expect(activityStreak2).to.deep.equal(['2019/06/18']);
