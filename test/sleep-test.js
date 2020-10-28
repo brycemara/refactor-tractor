@@ -340,7 +340,7 @@ describe('Sleep', function() {
   });
 
   it('should return person with best quality sleep for the week', function() {
-    let userData = sleep.determineSleepWinnerForWeek("2019/06/21", userRepo);
+    let userData = sleep.determineSleepQualityWinnerForWeek("2019/06/21", userRepo);
 
     expect(userData).to.deep.equal(["Bugs Bunny"]);
   });
@@ -363,7 +363,7 @@ describe('Sleep', function() {
     });
     users = [user1, user2, user3, user4, user5, user6];
     userRepo = new UserRepo(users);
-    let userData = sleep.determineSleepWinnerForWeek("2019/06/21", userRepo);
+    let userData = sleep.determineSleepQualityWinnerForWeek("2019/06/21", userRepo);
 
     expect(userData).to.deep.equal(["Bugs Bunny", "Richmond"]);
   });
