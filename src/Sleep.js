@@ -1,22 +1,8 @@
-import sleepData from './data/sleep';
-
-class Sleep {
-  constructor(sleepData) {
-    this.sleepData = sleepData;
-  };
-
-  calculateAverage(id, property) {
-    let dataPerDay = this.sleepData.filter((data) => id === data.userID);
-    let total = dataPerDay.reduce((sum, data) => {
-      return sum += data[property];
-    }, 0);
-    let averagePerDay = total / dataPerDay.length;
-    return averagePerDay;
-  };
-
-  calculateDailyTotal(id, date, property) {
-    let findSleepDataByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
-    return findSleepDataByDate[property];
+import Health from './Health';
+class Sleep extends Health {
+  constructor(data) {
+    super(data);
+    this.sleepData = data;
   };
 
   calculateWeekTotal(date, id, userRepo, property) {
