@@ -334,7 +334,7 @@ describe('Activity', function() {
 
 })
 
-describe.only('Friend Activity', function() {
+describe('Friend Activity', function() {
   let activityData;
   let activity;
   let user1;
