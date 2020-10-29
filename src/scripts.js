@@ -11,6 +11,7 @@ import Sleep from './Sleep';
 import UserRepo from './User-repo';
 
 import {fetchApi} from './Fetch-API';
+import {domDisplay} from './DOM-loader';
 
 let userList;
 let userRepo;
@@ -162,47 +163,21 @@ function addSleepInfo(id, sleepInfo, dateString, userRepo) {
   sleepThisWeek.insertAdjacentHTML('afterBegin', makeSleepHTML(id, sleepInfo, userRepo, weekSleepTotal));
   const weekSleepQuality = sleepInfo.calculateWeekTotal(dateString, id, userRepo, 'sleepQuality');
   sleepEarlierWeek.insertAdjacentHTML('afterBegin', makeSleepHTML(id, sleepInfo, userRepo, weekSleepQuality));
-}
+};
 
 function makeSleepHTML(id, sleepInfo, userRepo, relevantData) {
   const sleepHours = relevantData.map(sleepData => `<li class="historical-list-listItem">On ${sleepData} hours</li>`).join('');
   return sleepHours;
-}
+};
 
 function addActivityInfo(id, activityInfo, dateString, userRepo, winnerId, user) {
   const userDailyActiveMinutes = activityInfo.getDailyUserData(id, dateString, userRepo, 'minutesActive');
   userMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${userDailyActiveMinutes}</span></p>`);
   const usersAverage = activityInfo.getAllUsersAverageForDay(dateString, userRepo, 'minutesActive');
   avgMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${usersAverage}</span></p>`);
-  createDailyActivityData(id, activityInfo, dateString, userRepo);
-  createWeeklyActivityData(id, activityInfo, dateString, userRepo, winnerId, user);
-}
-
-function createDailyActivityData(id, activityInfo, dateString, userRepo) {
-  const userDailyFlights = activityInfo.getDailyUserData(id, dateString, userRepo, 'flightsOfStairs');
-  userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${userDailyFlights}</span></p>`);
-  const usersAverageDailyFlights = activityInfo.getAllUsersAverageForDay(dateString, userRepo, 'flightsOfStairs');
-  avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${usersAverageDailyFlights}</span></p>`);
-  const userSteps = activityInfo.getDailyUserData(id, dateString, userRepo, 'numSteps');
-  userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${userSteps}</span></p>`);
-  const usersAverageDailySteps = activityInfo.getAllUsersAverageForDay(dateString, userRepo, 'numSteps');
-  avgStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${usersAverageDailyFlights}</span></p>`);
-}
-
-function createWeeklyActivityData(id, activityInfo, dateString, userRepo, winnerId, user) {
-  const weeklySteps = makeActivityHTML(activityInfo.getWeeklyUserData(id, dateString, userRepo, "numSteps"), "steps");
-  userStepsThisWeek.insertAdjacentHTML("afterBegin", weeklySteps);
-  const weeklyFlights = makeActivityHTML(activityInfo.getWeeklyUserData(id, dateString, userRepo, "flightsOfStairs"), "flights");
-  userStairsThisWeek.insertAdjacentHTML("afterBegin", weeklyFlights);
-  const minutesActive = makeActivityHTML(activityInfo.getWeeklyUserData(id, dateString, userRepo, "minutesActive"), "minutes");
-  userMinutesThisWeek.insertAdjacentHTML("afterBegin", minutesActive);
-  const bestSteps = makeActivityHTML(activityInfo.getWeeklyUserData(winnerId, dateString, userRepo, "numSteps"), 'steps');
-  bestUserSteps.insertAdjacentHTML("afterBegin", bestSteps);
-}
-
-function makeActivityHTML(relevantData, relevantDataName) {
-  return relevantData.map(activityData => `<li class="historical-list-listItem">On ${activityData} ${relevantDataName}</li>`).join('');
-}
+  domDisplay.createDailyActivityData(id, activityInfo, dateString, userRepo);
+  domDisplay.createWeeklyActivityData(id, activityInfo, dateString, userRepo, winnerId, user);
+};
 
 function addFriendGameInfo(id, activityInfo, userRepo, dateString, laterDateString, user) {
   const challengeWinner = activityInfo.getChallengeListAndWinner(user, dateString, userRepo);
