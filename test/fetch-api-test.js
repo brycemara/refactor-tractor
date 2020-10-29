@@ -8,7 +8,7 @@ describe('fetchApi', function() {
 
   before(function() {
     global.fetchApi = {};
-    chai.spy.on(fetchApi, ['fetchUserData', 'fetchSleepData', 'fetchHydrationData', 'fetchActivityData', 'fetch', 'postHydrationData', 'postSleepData', 'postActivityData'], () => {})
+    chai.spy.on(fetchApi, ['fetchUserData', 'fetchSleepData', 'fetchHydrationData', 'fetchActivityData', 'postHydrationData', 'postSleepData', 'postActivityData'], () => {})
   });
 
   it('should be able to fetch user data', function() {
