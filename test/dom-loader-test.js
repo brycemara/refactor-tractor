@@ -46,7 +46,7 @@ describe.only('domDisplay', function() {
     expect(domDisplay.createWeeklyActivityData).to.have.been.called.with(id, activityInfo, dateString, userRepo, winnerId, user);
   });
 
-  it('should make Activity HTML block', function() {
+  it('should make activity HTML block', function() {
     domDisplay.makeActivityHTML(relevantData, relevantDataName);
 
     expect(domDisplay.makeActivityHTML).to.have.been.called(1);

@@ -1,5 +1,4 @@
 let fetchApi = {
-
   fetchUserData() {
     let fetchedUser = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
       .then(response => response.json())
@@ -86,6 +85,6 @@ let fetchApi = {
    flightsOfStairs: parseInt(activityFlightsOfStairsInfo.value)};
    return newData;
  }
- 
 };
+
 export {fetchApi};
