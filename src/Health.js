@@ -14,7 +14,7 @@ class Health {
       return sum += data[property];
     }, 0);
     let averagePerDay = total / dataPerDay.length;
-    return averagePerDay;
+    return averagePerDay.toFixed(1);
   }
 }
 

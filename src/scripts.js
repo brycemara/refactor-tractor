@@ -10,31 +10,18 @@ import Hydration from './Hydration';
 import Sleep from './Sleep';
 import UserRepo from './User-repo';
 
+import {fetchApi} from './Fetch-API';
+
 let userList;
 let userRepo;
 let hydrationRepo;
 let sleepRepo;
 let activityRepo;
 
-let fetchedUserData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
-  .then(response => response.json())
-  .then(data => data.userData)
-  .catch(error => console.log(error.message));
-
-let fetchedSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData')
-  .then(response => response.json())
-  .then(data => data.sleepData)
-  .catch(error => console.log(error.message));
-
-let fetchedHydrationData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData')
-  .then(response => response.json())
-  .then(data => data.hydrationData)
-  .catch(error => console.log(error.message));
-
-let fetchedActivityData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData')
-  .then(response => response.json())
-  .then(data => data.activityData)
-  .catch(error => console.log(error.message));
+const fetchedUserData = fetchApi.fetchUserData();
+const fetchedSleepData = fetchApi.fetchSleepData();
+const fetchedHydrationData = fetchApi.fetchHydrationData();
+const fetchedActivityData = fetchApi.fetchActivityData();
 
 Promise.all([fetchedUserData, fetchedSleepData, fetchedHydrationData, fetchedActivityData]).then(values => {
   userList = createUsers(values[0]);
@@ -45,89 +32,18 @@ Promise.all([fetchedUserData, fetchedSleepData, fetchedHydrationData, fetchedAct
   startApp();
 });
 
-let sleepIdInfo = document.getElementById('sleep-userID-input');
-let sleepDateInfo = document.getElementById('sleep-date-input');
-let sleepHoursSleptInfo = document.getElementById('sleep-hoursSlept-input');
-let sleepSleepQualityInfo = document.getElementById('sleep-sleepQuality-input');
-
-function buildSleepObject() {
-  let newData = {userID: parseInt(sleepIdInfo.value),
-  date: sleepDateInfo.value,
-  hoursSlept: parseInt(sleepHoursSleptInfo.value),
-  sleepQuality: parseInt(sleepSleepQualityInfo.value)};
-  return newData;
-};
-
-function postSleepData() {
-  let newData = buildSleepObject();
-  let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
-    method: 'POST',
-    headers: {
-      'Content-Type':'application/json'
-    },
-    body: JSON.stringify(newData)
-  })
-  .then(response => response.json())
-  .catch(error => console.log(error.message))
-};
-
-
-let hydrationIdInfo = document.getElementById('hydration-userID-input');
-let hydrationDateInfo = document.getElementById('hydration-date-input');
-let hydrationOuncesInfo = document.getElementById('hydration-ounces-input');
-
-function buildHydrationObject() {
-  let newData = {userID: parseInt(hydrationIdInfo.value),
-  date: hydrationDateInfo.value,
-  numOunces: parseInt(hydrationOuncesInfo.value),
-  };
-  return newData;
-};
-
-function postHydrationData() {
-  let newData = buildHydrationObject();
-  let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData', {
-    method: 'POST',
-    headers: {
-      'Content-Type':'application/json'
-    },
-    body: JSON.stringify(newData)
-  })
-  .then(response => response.json())
-  .catch(error => console.log(error.message))
-};
-
-let activityIdInfo = document.getElementById('activity-userID-input')
-let activityDateInfo = document.getElementById('activity-date-input')
-let activityNumStepsInfo = document.getElementById('activity-numSteps-input')
-let activityMinsActiveInfo = document.getElementById('activity-minsActive-input')
-let activityFlightsOfStairsInfo = document.getElementById('activity-flightsOfStairs-input')
-
-function buildActivityObject() {
-  let newData = {userID: parseInt(activityIdInfo.value),
-  date: activityDateInfo.value,
-  numSteps: parseInt(activityNumStepsInfo.value),
-  minutesActive: parseInt(activityMinsActiveInfo.value),
-  flightsOfStairs: parseInt(activityFlightsOfStairsInfo.value)};
-  return newData;
-};
-
-function postActivityData() {
-  let newData = buildActivityObject();
-  let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
-    method: 'POST',
-    headers: {
-      'Content-Type':'application/json'
-    },
-    body: JSON.stringify(newData)
-  })
-  .then(response => response.json())
-  .catch(error => console.log(error.message))
-};
-
-document.querySelector('#submit-sleep-info').addEventListener('click', postSleepData);
-document.querySelector('#submit-hydration-info').addEventListener('click', postHydrationData);
-document.querySelector('#submit-activity-info').addEventListener('click', postActivityData);
+const sleepIdInfo = document.getElementById('sleep-userID-input');
+const sleepDateInfo = document.getElementById('sleep-date-input');
+const sleepHoursSleptInfo = document.getElementById('sleep-hoursSlept-input');
+const sleepSleepQualityInfo = document.getElementById('sleep-sleepQuality-input');
+const hydrationIdInfo = document.getElementById('hydration-userID-input');
+const hydrationDateInfo = document.getElementById('hydration-date-input');
+const hydrationOuncesInfo = document.getElementById('hydration-ounces-input');
+const activityIdInfo = document.getElementById('activity-userID-input')
+const activityDateInfo = document.getElementById('activity-date-input')
+const activityNumStepsInfo = document.getElementById('activity-numSteps-input')
+const activityMinsActiveInfo = document.getElementById('activity-minsActive-input')
+const activityFlightsOfStairsInfo = document.getElementById('activity-flightsOfStairs-input')
 
 const sidebarName = document.getElementById('sidebarUserName');
 const stepGoalCard = document.getElementById('userStepGoalCard');
@@ -162,6 +78,10 @@ const userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
 const bestUserSteps = document.getElementById('bestUserSteps');
 const streakList = document.getElementById('streakList');
 const streakListMinutes = document.getElementById('streakListMinutes')
+
+document.querySelector('#submit-sleep-info').addEventListener('click', fetchApi.postSleepData);
+document.querySelector('#submit-hydration-info').addEventListener('click', fetchApi.postHydrationData);
+document.querySelector('#submit-activity-info').addEventListener('click', fetchApi.postActivityData);
 
 function startApp() {
   getCurrentInfo();
