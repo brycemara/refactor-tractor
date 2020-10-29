@@ -6,7 +6,7 @@ chai.use(spies);
 
 const domDisplay = require('../src/DOM-loader');
 
-describe.only('domDisplay', function() {
+describe('domDisplay', function() {
   let relevantData;
   let relevantDataName;
   let id;

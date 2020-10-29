@@ -4,7 +4,7 @@ const expect = chai.expect;
 const spies = require('chai-spies');
 chai.use(spies);
 
-describe.only('fetchApi', function() {
+describe('fetchApi', function() {
 
   before(function() {
     global.fetchApi = {};
