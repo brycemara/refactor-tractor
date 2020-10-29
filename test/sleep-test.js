@@ -300,13 +300,13 @@ describe('Sleep', function() {
   it('should find the average sleep hours per day for a user', function() {
     let userData = sleep.calculateAverage(3, 'hoursSlept');
 
-    expect(userData).to.equal(3);
+    expect(userData).to.equal('3.0');
   });
 
   it('should find the average sleep quality per day for a user', function() {
     let userData2 = sleep.calculateAverage(3, 'sleepQuality');
 
-    expect(userData2).to.equal(2);
+    expect(userData2).to.equal('2.0');
   });
 
   it('should find the sleep hours for a user on a specified date', function() {

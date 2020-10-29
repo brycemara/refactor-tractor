@@ -10,31 +10,19 @@ import Hydration from './Hydration';
 import Sleep from './Sleep';
 import UserRepo from './User-repo';
 
+import {fetchApi} from './Fetch-API';
+import {domDisplay} from './DOM-loader';
+
 let userList;
 let userRepo;
 let hydrationRepo;
 let sleepRepo;
 let activityRepo;
 
-let fetchedUserData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
-  .then(response => response.json())
-  .then(data => data.userData)
-  .catch(error => console.log(error.message));
-
-let fetchedSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData')
-  .then(response => response.json())
-  .then(data => data.sleepData)
-  .catch(error => console.log(error.message));
-
-let fetchedHydrationData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData')
-  .then(response => response.json())
-  .then(data => data.hydrationData)
-  .catch(error => console.log(error.message));
-
-let fetchedActivityData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData')
-  .then(response => response.json())
-  .then(data => data.activityData)
-  .catch(error => console.log(error.message));
+const fetchedUserData = fetchApi.fetchUserData();
+const fetchedSleepData = fetchApi.fetchSleepData();
+const fetchedHydrationData = fetchApi.fetchHydrationData();
+const fetchedActivityData = fetchApi.fetchActivityData();
 
 Promise.all([fetchedUserData, fetchedSleepData, fetchedHydrationData, fetchedActivityData]).then(values => {
   userList = createUsers(values[0]);
@@ -45,89 +33,18 @@ Promise.all([fetchedUserData, fetchedSleepData, fetchedHydrationData, fetchedAct
   startApp();
 });
 
-let sleepIdInfo = document.getElementById('sleep-userID-input');
-let sleepDateInfo = document.getElementById('sleep-date-input');
-let sleepHoursSleptInfo = document.getElementById('sleep-hoursSlept-input');
-let sleepSleepQualityInfo = document.getElementById('sleep-sleepQuality-input');
-
-function buildSleepObject() {
-  let newData = {userID: parseInt(sleepIdInfo.value),
-  date: sleepDateInfo.value,
-  hoursSlept: parseInt(sleepHoursSleptInfo.value),
-  sleepQuality: parseInt(sleepSleepQualityInfo.value)};
-  return newData;
-};
-
-function postSleepData() {
-  let newData = buildSleepObject();
-  let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
-    method: 'POST',
-    headers: {
-      'Content-Type':'application/json'
-    },
-    body: JSON.stringify(newData)
-  })
-  .then(response => response.json())
-  .catch(error => console.log(error.message))
-};
-
-
-let hydrationIdInfo = document.getElementById('hydration-userID-input');
-let hydrationDateInfo = document.getElementById('hydration-date-input');
-let hydrationOuncesInfo = document.getElementById('hydration-ounces-input');
-
-function buildHydrationObject() {
-  let newData = {userID: parseInt(hydrationIdInfo.value),
-  date: hydrationDateInfo.value,
-  numOunces: parseInt(hydrationOuncesInfo.value),
-  };
-  return newData;
-};
-
-function postHydrationData() {
-  let newData = buildHydrationObject();
-  let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData', {
-    method: 'POST',
-    headers: {
-      'Content-Type':'application/json'
-    },
-    body: JSON.stringify(newData)
-  })
-  .then(response => response.json())
-  .catch(error => console.log(error.message))
-};
-
-let activityIdInfo = document.getElementById('activity-userID-input')
-let activityDateInfo = document.getElementById('activity-date-input')
-let activityNumStepsInfo = document.getElementById('activity-numSteps-input')
-let activityMinsActiveInfo = document.getElementById('activity-minsActive-input')
-let activityFlightsOfStairsInfo = document.getElementById('activity-flightsOfStairs-input')
-
-function buildActivityObject() {
-  let newData = {userID: parseInt(activityIdInfo.value),
-  date: activityDateInfo.value,
-  numSteps: parseInt(activityNumStepsInfo.value),
-  minutesActive: parseInt(activityMinsActiveInfo.value),
-  flightsOfStairs: parseInt(activityFlightsOfStairsInfo.value)};
-  return newData;
-};
-
-function postActivityData() {
-  let newData = buildActivityObject();
-  let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
-    method: 'POST',
-    headers: {
-      'Content-Type':'application/json'
-    },
-    body: JSON.stringify(newData)
-  })
-  .then(response => response.json())
-  .catch(error => console.log(error.message))
-};
-
-document.querySelector('#submit-sleep-info').addEventListener('click', postSleepData);
-document.querySelector('#submit-hydration-info').addEventListener('click', postHydrationData);
-document.querySelector('#submit-activity-info').addEventListener('click', postActivityData);
+const sleepIdInfo = document.getElementById('sleep-userID-input');
+const sleepDateInfo = document.getElementById('sleep-date-input');
+const sleepHoursSleptInfo = document.getElementById('sleep-hoursSlept-input');
+const sleepSleepQualityInfo = document.getElementById('sleep-sleepQuality-input');
+const hydrationIdInfo = document.getElementById('hydration-userID-input');
+const hydrationDateInfo = document.getElementById('hydration-date-input');
+const hydrationOuncesInfo = document.getElementById('hydration-ounces-input');
+const activityIdInfo = document.getElementById('activity-userID-input')
+const activityDateInfo = document.getElementById('activity-date-input')
+const activityNumStepsInfo = document.getElementById('activity-numSteps-input')
+const activityMinsActiveInfo = document.getElementById('activity-minsActive-input')
+const activityFlightsOfStairsInfo = document.getElementById('activity-flightsOfStairs-input')
 
 const sidebarName = document.getElementById('sidebarUserName');
 const stepGoalCard = document.getElementById('userStepGoalCard');
@@ -162,6 +79,10 @@ const userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
 const bestUserSteps = document.getElementById('bestUserSteps');
 const streakList = document.getElementById('streakList');
 const streakListMinutes = document.getElementById('streakListMinutes')
+
+document.querySelector('#submit-sleep-info').addEventListener('click', fetchApi.postSleepData);
+document.querySelector('#submit-hydration-info').addEventListener('click', fetchApi.postHydrationData);
+document.querySelector('#submit-activity-info').addEventListener('click', fetchApi.postActivityData);
 
 function startApp() {
   getCurrentInfo();
@@ -242,47 +163,21 @@ function addSleepInfo(id, sleepInfo, dateString, userRepo) {
   sleepThisWeek.insertAdjacentHTML('afterBegin', makeSleepHTML(id, sleepInfo, userRepo, weekSleepTotal));
   const weekSleepQuality = sleepInfo.calculateWeekTotal(dateString, id, userRepo, 'sleepQuality');
   sleepEarlierWeek.insertAdjacentHTML('afterBegin', makeSleepHTML(id, sleepInfo, userRepo, weekSleepQuality));
-}
+};
 
 function makeSleepHTML(id, sleepInfo, userRepo, relevantData) {
   const sleepHours = relevantData.map(sleepData => `<li class="historical-list-listItem">On ${sleepData} hours</li>`).join('');
   return sleepHours;
-}
+};
 
 function addActivityInfo(id, activityInfo, dateString, userRepo, winnerId, user) {
   const userDailyActiveMinutes = activityInfo.getDailyUserData(id, dateString, userRepo, 'minutesActive');
   userMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${userDailyActiveMinutes}</span></p>`);
   const usersAverage = activityInfo.getAllUsersAverageForDay(dateString, userRepo, 'minutesActive');
   avgMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${usersAverage}</span></p>`);
-  createDailyActivityData(id, activityInfo, dateString, userRepo);
-  createWeeklyActivityData(id, activityInfo, dateString, userRepo, winnerId, user);
-}
-
-function createDailyActivityData(id, activityInfo, dateString, userRepo) {
-  const userDailyFlights = activityInfo.getDailyUserData(id, dateString, userRepo, 'flightsOfStairs');
-  userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${userDailyFlights}</span></p>`);
-  const usersAverageDailyFlights = activityInfo.getAllUsersAverageForDay(dateString, userRepo, 'flightsOfStairs');
-  avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${usersAverageDailyFlights}</span></p>`);
-  const userSteps = activityInfo.getDailyUserData(id, dateString, userRepo, 'numSteps');
-  userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${userSteps}</span></p>`);
-  const usersAverageDailySteps = activityInfo.getAllUsersAverageForDay(dateString, userRepo, 'numSteps');
-  avgStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${usersAverageDailyFlights}</span></p>`);
-}
-
-function createWeeklyActivityData(id, activityInfo, dateString, userRepo, winnerId, user) {
-  const weeklySteps = makeActivityHTML(activityInfo.getWeeklyUserData(id, dateString, userRepo, "numSteps"), "steps");
-  userStepsThisWeek.insertAdjacentHTML("afterBegin", weeklySteps);
-  const weeklyFlights = makeActivityHTML(activityInfo.getWeeklyUserData(id, dateString, userRepo, "flightsOfStairs"), "flights");
-  userStairsThisWeek.insertAdjacentHTML("afterBegin", weeklyFlights);
-  const minutesActive = makeActivityHTML(activityInfo.getWeeklyUserData(id, dateString, userRepo, "minutesActive"), "minutes");
-  userMinutesThisWeek.insertAdjacentHTML("afterBegin", minutesActive);
-  const bestSteps = makeActivityHTML(activityInfo.getWeeklyUserData(winnerId, dateString, userRepo, "numSteps"), 'steps');
-  bestUserSteps.insertAdjacentHTML("afterBegin", bestSteps);
-}
-
-function makeActivityHTML(relevantData, relevantDataName) {
-  return relevantData.map(activityData => `<li class="historical-list-listItem">On ${activityData} ${relevantDataName}</li>`).join('');
-}
+  domDisplay.createDailyActivityData(id, activityInfo, dateString, userRepo);
+  domDisplay.createWeeklyActivityData(id, activityInfo, dateString, userRepo, winnerId, user);
+};
 
 function addFriendGameInfo(id, activityInfo, userRepo, dateString, laterDateString, user) {
   const challengeWinner = activityInfo.getChallengeListAndWinner(user, dateString, userRepo);
