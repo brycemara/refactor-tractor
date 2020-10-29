@@ -137,7 +137,7 @@ describe('Hydration', function() {
   it('should find the average water intake per day for a user', function() {
     let userHydration = hydration.calculateAverage(3, 'numOunces');
 
-    expect(userHydration).to.equal(2);
+    expect(userHydration).to.equal('2.0');
   });
 
   it('should find the water intake for a user on a specified date', function() {
