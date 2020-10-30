@@ -1,0 +1,12 @@
+export let sleepIdInfo = document.getElementById('sleep-userID-input');
+export let sleepDateInfo = document.getElementById('sleep-date-input');
+export let sleepHoursSleptInfo = document.getElementById('sleep-hoursSlept-input');
+export let sleepSleepQualityInfo = document.getElementById('sleep-sleepQuality-input');
+export let hydrationIdInfo = document.getElementById('hydration-userID-input');
+export let hydrationDateInfo = document.getElementById('hydration-date-input');
+export let hydrationOuncesInfo = document.getElementById('hydration-ounces-input');
+export let activityIdInfo = document.getElementById('activity-userID-input');
+export let activityDateInfo = document.getElementById('activity-date-input');
+export let activityNumStepsInfo = document.getElementById('activity-numSteps-input');
+export let activityMinsActiveInfo = document.getElementById('activity-minsActive-input');
+export let activityFlightsOfStairsInfo = document.getElementById('activity-flightsOfStairs-input');
