@@ -1,3 +1,5 @@
+import {sleepIdInfo, sleepDateInfo, sleepHoursSleptInfo, sleepSleepQualityInfo, hydrationIdInfo, hydrationDateInfo, hydrationOuncesInfo, activityIdInfo, activityDateInfo, activityNumStepsInfo, activityMinsActiveInfo, activityFlightsOfStairsInfo} from './dom-data.js'
+
 let fetchApi = {
   fetchUserData() {
     let fetchedUser = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
@@ -28,7 +30,7 @@ let fetchApi = {
       return fetchedActivity;
   },
   postSleepData() {
-    let newData = buildSleepObject();
+    let newData = fetchApi.buildSleepObject();
     let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
       method: 'POST',
       headers: {
@@ -47,7 +49,7 @@ let fetchApi = {
     return newData;
   },
   postHydrationData() {
-   let newData = buildHydrationObject();
+   let newData = fetchApi.buildHydrationObject();
    let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData', {
      method: 'POST',
      headers: {
@@ -66,7 +68,7 @@ let fetchApi = {
    return newData;
  },
  postActivityData() {
-   let newData = buildActivityObject();
+   let newData = fetchApi.buildActivityObject();
    let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
      method: 'POST',
      headers: {
