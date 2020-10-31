@@ -68,13 +68,13 @@
         </section>
       </section>
       <section class="hydration-input">
-        <label>User ID:</label>
-        <input id="hydration-userID-input" type="number">
-        <label>Date:</label>
-        <input id="hydration-date-input" type="text">
-        <label>Ounces:</label>
-        <input id="hydration-ounces-input" type="number">
-        <button id="submit-hydration-info">Submit</button>
+        <label for="hydration-userID-input" class="input-label">User ID:</label>
+        <input id="hydration-userID-input" class="input-field" type="number" placeholder="userID" min=1 max=50>
+        <label for="hydration-date-input" class="input-label">Date:</label>
+        <input id="hydration-date-input" class="input-field" type="text" placeholder="YYYY/MM/DD">
+        <label for="hydration-ounces-input" class="input-label">Ounces:</label>
+        <input id="hydration-ounces-input" class="input-field" type="number" placeholder="oz of water intake" min=0.0 step=.1>
+        <button id="submit-hydration-info" class="submit-button">Submit</button>
       </section>
       <section class="main-column-activity">
         <section class="infoContainer-cardContainer-card-horizontal">
@@ -139,17 +139,17 @@
         </section>
       </section>
       <section class="activity-input">
-        <label>User ID:</label>
-        <input id="activity-userID-input" type="number">
-        <label>Date:</label>
-        <input id="activity-date-input" type="text">
-        <label>Number of Steps:</label>
-        <input id="activity-numSteps-input" type="number">
-        <label>Minutes Active:</label>
-        <input id="activity-minsActive-input" type="number">
-        <label>Flights of Stairs:</label>
-        <input id="activity-flightsOfStairs-input">
-        <button id="submit-activity-info">Submit</button>
+        <label for="activity-userID-input" class="input-label">User ID:</label>
+        <input id="activity-userID-input" class="input-field" type="number" placeholder="userID" min=1 max=50>
+        <label for="activity-date-input" class="input-label">Date:</label>
+        <input id="activity-date-input" class="input-field" type="text" placeholder="YYYY/MM/DD">
+        <label for="activity-numSteps-input" class="input-label">Number of Steps:</label>
+        <input id="activity-numSteps-input" class="input-field" type="number" placeholder="# steps taken">
+        <label for="activity-minsActive-input" class="input-label">Minutes Active:</label>
+        <input id="activity-minsActive-input" class="input-field" type="number" placeholder="# minutes active">
+        <label for="activity-flightsOfStairs-input" class="input-label">Flights of Stairs:</label>
+        <input id="activity-flightsOfStairs-input" class="input-field" class="input-label" placeholder="# flights of stairs" min=0 step=1>
+        <button id="submit-activity-info" class="submit-button">Submit</button>
       </section>
       <section class="main-column-sleep">
         <section class="infoContainer-cardContainer-card-horizontal">
@@ -181,15 +181,15 @@
         </section>
       </section>
       <section class="sleep-input">
-        <label for="sleep-userID-input">User ID:</label>
-        <input id="sleep-userID-input" placeholder="userID" type="number">
-        <label for="sleep-date-input">Date:</label>
-        <input id="sleep-date-input" type="text">
-        <label for="sleep-hoursSlept-input">Hours Slept:</label>
-        <input id="sleep-hoursSlept-input" type="number">
-        <label for="sleep-sleepQuality-input">Sleep Quality:</label>
-        <input id="sleep-sleepQuality-input" type="number">
-        <button id="submit-sleep-info">Submit</button>
+        <label for="sleep-userID-input" class="input-label">User ID:</label>
+        <input id="sleep-userID-input" class="input-field" type="number" placeholder="userID" min=1 max=50>
+        <label for="sleep-date-input" class="input-label">Date:</label>
+        <input id="sleep-date-input" class="input-field" type="text" placeholder="YYYY/MM/DD">
+        <label for="sleep-hoursSlept-input" class="input-label">Hours Slept:</label>
+        <input id="sleep-hoursSlept-input" class="input-field" type="number" placeholder="# hours slept" min=0.0 step=.1>
+        <label for="sleep-sleepQuality-input" class="input-label">Sleep Quality:</label>
+        <input id="sleep-sleepQuality-input" class="input-field" type="number" placeholder="# sleep quality rating" min=0.0 max=5.0 step=.1>
+        <button id="submit-sleep-info" class="submit-button">Submit</button>
       </section>
     </section>
     <section class="main-sidebar-body">

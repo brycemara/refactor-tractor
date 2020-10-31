@@ -123,19 +123,32 @@ input {
 
 .activity-input {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .sleep-input {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .hydration-input {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }
 
+.input-label {
+  color: $white;
+  font-size: .95em;
+}
+
+.input-field {
+  width: 10%;
+}
+
+::placeholder {
+  color: $black;
+  font-size: .85em;
+}
 
 @mixin todayDisplay($background, $fontSize, $margin, $content, $width) {
   text-align: center;
