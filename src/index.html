@@ -67,13 +67,13 @@
           </div>
         </section>
       </section>
-      <section class="hydration-input">
+      <section class="hydration-input" role=form>
         <label for="hydration-userID-input" class="input-label">User ID:</label>
-        <input id="hydration-userID-input" class="input-field" type="number" placeholder="userID" min=1 max=50>
+        <input aria-label="input-field-for-UserID-number" id="hydration-userID-input" class="input-field" type="number" placeholder="userID" min=1 max=50 aria-required=true>
         <label for="hydration-date-input" class="input-label">Date:</label>
-        <input id="hydration-date-input" class="input-field" type="text" placeholder="YYYY/MM/DD">
+        <input aria-label="input-field-for-date" id="hydration-date-input" class="input-field" type="text" placeholder="YYYY/MM/DD" aria-required=true>
         <label for="hydration-ounces-input" class="input-label">Ounces:</label>
-        <input id="hydration-ounces-input" class="input-field" type="number" placeholder="oz of water intake" min=0.0 step=.1>
+        <input aria-label="input-field-for-ounces-of-water-consumed" id="hydration-ounces-input" class="input-field" type="number" placeholder="oz of water intake" min=0.0 step=.1 aria-required=true>
         <button id="submit-hydration-info" class="submit-button">Submit</button>
       </section>
       <section class="main-column-activity">
@@ -138,17 +138,17 @@
           </section>
         </section>
       </section>
-      <section class="activity-input">
+      <section class="activity-input" role=form>
         <label for="activity-userID-input" class="input-label">User ID:</label>
-        <input id="activity-userID-input" class="input-field" type="number" placeholder="userID" min=1 max=50>
+        <input aria-label="input-field-for-UserID-number" id="activity-userID-input" class="input-field" type="number" placeholder="userID" min=1 max=50 aria-required=true>
         <label for="activity-date-input" class="input-label">Date:</label>
-        <input id="activity-date-input" class="input-field" type="text" placeholder="YYYY/MM/DD">
+        <input aria-label="input-field-for-date" id="activity-date-input" class="input-field" type="text" placeholder="YYYY/MM/DD" aria-required=true>
         <label for="activity-numSteps-input" class="input-label">Number of Steps:</label>
-        <input id="activity-numSteps-input" class="input-field" type="number" placeholder="# steps taken">
+        <input aria-label="input-field-for-number-of-steps-taken" id="activity-numSteps-input" class="input-field" type="number" placeholder="# steps taken" aria-required=true>
         <label for="activity-minsActive-input" class="input-label">Minutes Active:</label>
-        <input id="activity-minsActive-input" class="input-field" type="number" placeholder="# minutes active">
+        <input aria-label="input-field-for-number-of-minutes-active" id="activity-minsActive-input" class="input-field" type="number" placeholder="# minutes active" aria-required=true>
         <label for="activity-flightsOfStairs-input" class="input-label">Flights of Stairs:</label>
-        <input id="activity-flightsOfStairs-input" class="input-field" class="input-label" placeholder="# flights of stairs" min=0 step=1>
+        <input aria-label="input-field-for-number-of-stairs-climbed" id="activity-flightsOfStairs-input" class="input-field" class="input-label" placeholder="# flights of stairs" min=0 step=1 aria-required=true>
         <button id="submit-activity-info" class="submit-button">Submit</button>
       </section>
       <section class="main-column-sleep">
@@ -180,15 +180,15 @@
           </div>
         </section>
       </section>
-      <section class="sleep-input">
+      <section class="sleep-input" role=form>
         <label for="sleep-userID-input" class="input-label">User ID:</label>
-        <input id="sleep-userID-input" class="input-field" type="number" placeholder="userID" min=1 max=50>
+        <input aria-label="input-field-for-UserID-number" id="sleep-userID-input" class="input-field" type="number" placeholder="userID" min=1 max=50 aria-required=true>
         <label for="sleep-date-input" class="input-label">Date:</label>
-        <input id="sleep-date-input" class="input-field" type="text" placeholder="YYYY/MM/DD">
+        <input aria-label="input-field-for-date" id="sleep-date-input" class="input-field" type="text" placeholder="YYYY/MM/DD" aria-required=true>
         <label for="sleep-hoursSlept-input" class="input-label">Hours Slept:</label>
-        <input id="sleep-hoursSlept-input" class="input-field" type="number" placeholder="# hours slept" min=0.0 step=.1>
+        <input aria-label="input-field-for-number-of-hours-slept" id="sleep-hoursSlept-input" class="input-field" type="number" placeholder="# hours slept" min=0.0 step=.1 aria-required=true>
         <label for="sleep-sleepQuality-input" class="input-label">Sleep Quality:</label>
-        <input id="sleep-sleepQuality-input" class="input-field" type="number" placeholder="# sleep quality rating" min=0.0 max=5.0 step=.1>
+        <input aria-label="input-field-for-sleep-quality-rating" id="sleep-sleepQuality-input" class="input-field" type="number" placeholder="# sleep quality rating" min=0.0 max=5.0 step=.1 aria-required=true>
         <button id="submit-sleep-info" class="submit-button">Submit</button>
       </section>
     </section>
