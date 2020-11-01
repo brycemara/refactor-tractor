@@ -132,13 +132,13 @@ function makeSleepHTML(id, sleepInfo, userRepo, relevantData) {
   return sleepHours;
 };
 
-function addActivityInfo(id, activityInfo, dateString, userRepo, winnerId, user) {
+function addActivityInfo(id, activityInfo, dateString, userRepo, randomHistory, user, winnerId) {
   const userDailyActiveMinutes = activityInfo.getDailyUserData(id, dateString, userRepo, 'minutesActive');
   document.getElementById('userMinutesToday').insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${userDailyActiveMinutes}</span></p>`);
   const usersAverage = activityInfo.getAllUsersAverageForDay(dateString, userRepo, 'minutesActive');
   document.getElementById('avgMinutesToday').insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${usersAverage}</span></p>`);
   domDisplay.createDailyActivityData(id, activityInfo, dateString, userRepo);
-  domDisplay.createWeeklyActivityData(id, activityInfo, dateString, userRepo, winnerId, user);
+  domDisplay.createWeeklyActivityData(id, activityInfo, dateString, userRepo, randomHistory, user, winnerId);
 };
 
 function addFriendGameInfo(id, activityInfo, userRepo, dateString, laterDateString, user) {
