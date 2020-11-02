@@ -11,7 +11,7 @@ class Sleep extends Health {
 
   calculateAllUserSleepQuality() {
     let totalSleepQuality = this.sleepData.reduce((sum, user) => {
-      sum += user.sleepQuality;
+      sum += parseInt(user.sleepQuality);
       return sum;
     }, 0)
     let averageSleep = totalSleepQuality / this.sleepData.length;
@@ -36,18 +36,6 @@ class Sleep extends Health {
     }, 0);
     const average = sleepQualityAverage / sleepQualityData.length;
     return average;
-  };
-
-  determineSleepQualityWinnerForWeek(date, userRepo) {
-    let weekData = userRepo.getWeekDataForAllUsers(this.sleepData, date);
-    let sleepRankWithData = userRepo.combineRankedUsersAndAverageData(this.sleepData, date, 'sleepQuality', weekData);
-    return this.getWinnerNamesFromList(sleepRankWithData, userRepo);
-  };
-
-  determineSleepHoursWinnerForDay(date, userRepo) {
-    let dayData = userRepo.getDayDataForAllUsers(this.sleepData, date);
-    let sleepRankWithData = userRepo.combineRankedUsersAndAverageData(this.sleepData, date, 'hoursSlept', dayData);
-    return this.getWinnerNamesFromList(sleepRankWithData, userRepo);
   };
 
   getWinnerNamesFromList(sortedArray, userRepo) {

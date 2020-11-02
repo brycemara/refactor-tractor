@@ -33,19 +33,6 @@ Promise.all([fetchedUserData, fetchedSleepData, fetchedHydrationData, fetchedAct
   startApp();
 });
 
-const sleepIdInfo = document.getElementById('sleep-userID-input');
-const sleepDateInfo = document.getElementById('sleep-date-input');
-const sleepHoursSleptInfo = document.getElementById('sleep-hoursSlept-input');
-const sleepSleepQualityInfo = document.getElementById('sleep-sleepQuality-input');
-const hydrationIdInfo = document.getElementById('hydration-userID-input');
-const hydrationDateInfo = document.getElementById('hydration-date-input');
-const hydrationOuncesInfo = document.getElementById('hydration-ounces-input');
-const activityIdInfo = document.getElementById('activity-userID-input')
-const activityDateInfo = document.getElementById('activity-date-input')
-const activityNumStepsInfo = document.getElementById('activity-numSteps-input')
-const activityMinsActiveInfo = document.getElementById('activity-minsActive-input')
-const activityFlightsOfStairsInfo = document.getElementById('activity-flightsOfStairs-input')
-
 document.querySelector('#submit-sleep-info').addEventListener('click', fetchApi.postSleepData);
 document.querySelector('#submit-hydration-info').addEventListener('click', fetchApi.postHydrationData);
 document.querySelector('#submit-activity-info').addEventListener('click', fetchApi.postActivityData);
@@ -137,6 +124,8 @@ function addActivityInfo(id, activityInfo, dateString, userRepo, randomHistory, 
   document.getElementById('userMinutesToday').insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${userDailyActiveMinutes}</span></p>`);
   const usersAverage = activityInfo.getAllUsersAverageForDay(dateString, userRepo, 'minutesActive');
   document.getElementById('avgMinutesToday').insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${usersAverage}</span></p>`);
+  const userDailyMiles = activityInfo.getDailyMiles(id, dateString, userRepo);
+  document.getElementById('milesToday').insertAdjacentHTML("afterBegin", `<p>Your Daily Miles:</p><p><span class="number">${userDailyMiles}</span></p>`);
   domDisplay.createDailyActivityData(id, activityInfo, dateString, userRepo);
   domDisplay.createWeeklyActivityData(id, activityInfo, dateString, userRepo, randomHistory, user, winnerId);
 };
@@ -152,14 +141,14 @@ function addFriendGameInfo(id, activityInfo, userRepo, dateString, laterDateStri
   document.getElementById('friendChallengeListHistory').insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, challengeList));
   const winnerInfo = activityInfo.showcaseWinner(user, dateString, userRepo);
   document.getElementById('bigWinner').insertAdjacentHTML('afterBegin', `THIS WEEK'S WINNER! ${winnerInfo} steps`);
-}
+};
 
 function makeFriendChallengeHTML(id, relevantData) {
   const friendInfo = relevantData.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData} average steps.</li>`).join('');
-  return friendInfo
-}
+  return friendInfo;
+};
 
 function makeStepStreakHTML(id, relevantData) {
   const streakInfo = relevantData.map(streakData => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
-  return streakInfo
-}
+  return streakInfo;
+};

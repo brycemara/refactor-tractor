@@ -12,7 +12,7 @@ let domDisplay = {
     const userSteps = activityInfo.getDailyUserData(id, dateString, userRepo, 'numSteps');
     document.getElementById('userStepsToday').insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${userSteps}</span></p>`);
     const usersAverageDailySteps = activityInfo.getAllUsersAverageForDay(dateString, userRepo, 'numSteps');
-    document.getElementById('avgStepsToday').insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${usersAverageDailyFlights}</span></p>`);
+    document.getElementById('avgStepsToday').insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${usersAverageDailySteps}</span></p>`);
   },
 
   createWeeklyActivityData(id, activityInfo, dateString, userRepo, randomHistory, user, winnerId) {

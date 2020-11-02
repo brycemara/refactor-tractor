@@ -157,10 +157,11 @@ describe('Hydration', function() {
   });
 
   it('should find daily ounces for a given week', function() {
-    let userData = hydration.calculateRandomWeekOunces('2019/09/18', 4, userRepo)[0];
+    let userData1 = hydration.calculateRandomWeekOunces('2019/09/18', 4, userRepo)[0];
+    let userData2 = hydration.calculateRandomWeekOunces('2018/02/01', 4, userRepo)[0]
 
-    expect(userData).to.equal('2019/09/18: 40');
-    expect(hydration.calculateRandomWeekOunces('2018/02/01', 4, userRepo)[0]).to.equal('2018/02/01: 28');
+    expect(userData1).to.equal('2019/09/18: 40');
+    expect(userData2).to.equal('2018/02/01: 28');
   });
 
 });
