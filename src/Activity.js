@@ -12,33 +12,11 @@ class Activity extends Health {
     return miles;
   };
 
-  calculateActiveWeeklyAverage(id, date, userRepo) {
-    let week = userRepo.getWeekByDate(date, id, this.activityData);
-    let weekActiveMin =  week.reduce((sum, user) => {
-      return sum += user.minutesActive;
-    }, 0);
-    let averageActiveWeek = parseFloat((weekActiveMin / 7).toFixed(1));
-    return averageActiveWeek;
-  };
-
-  accomplishStepGoal(id, date, userRepo) {
-    let userActivityData = this.activityData.find(data => id === data.userID && date === data.date);
-    let userRepoData = userRepo.users.find(user => id === user.id);
-    let goalAccomplished = userActivityData.numSteps >= userRepoData.dailyStepGoal;
-    return goalAccomplished;
-  };
-
   getDaysGoalExceeded(id, userRepo) {
     let userRepoData = userRepo.users.find(user => id === user.id);
     let daysExceeded = this.activityData.filter(data => id === data.userID && data.numSteps > userRepoData.dailyStepGoal);
     let dates = daysExceeded.map(data => data.date);
     return dates;
-  };
-
-  getStairRecord(id) {
-    let userActivityData = this.activityData.filter(data => id === data.userID);
-    let totalStairs = userActivityData.reduce((sum, user) => (user.flightsOfStairs > sum) ? user.flightsOfStairs : sum, 0);
-    return totalStairs;
   };
 
   getAllUsersAverageForDay(date, userRepo, relevantData) {
