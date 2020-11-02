@@ -4,6 +4,8 @@
 [Allison Dietz](https://github.com/dietza)
 [Cooper Terrones](https://github.com/coopterrones)
 
+![Screen Shot 2020-11-02 at 4 48 36 PM](https://user-images.githubusercontent.com/68242949/97928967-ba398e00-1d2d-11eb-9ec3-4a2c9a88dbc0.png)
+
 ### Project OverView
 This project was a deliverable in Mod 2 of Turing. The goals were aimed towards getting experience with WebAPIs, WebPack, Chai Spies Testing & SASS/SCSS.
 
